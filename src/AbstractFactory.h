@@ -3,23 +3,35 @@
 
 #include "Vec2D.h"
 #include <SFML/Graphics.hpp>
+#include "Model.h"
+#include "View.h"
+#include "Player.h"
+#include "Platform.h"
+#include "Enemy.h"
+#include "Bonus.h"
 
 class AbstractFactory 
 {
-  virtual void createPlayer(const Vec2D& pos)=0;
-  virtual void createPlatform(const Vec2D& pos)=0;
-  virtual void createTile(const Vec2D& pos)=0;
-  virtual void createEnemy(const Vec2D& pos)=0;
+  virtual std::shared_ptr<Entity> createPlayer(const Vec2D& pos)=0;
+  virtual std::shared_ptr<Entity> createPlatform(const Vec2D& pos)=0;
+  virtual std::shared_ptr<Entity> createTile(const Vec2D& pos)=0;
+  virtual std::shared_ptr<Entity> createEnemy(const Vec2D& pos)=0;
 };
 
-class GameFactory : public AbstractFactory
+class ModelFactory : public AbstractFactory
 {
-
+  std::shared_ptr<Entity> createPlayer(const Vec2D& pos) override;
+  std::shared_ptr<Entity> createPlatform(const Vec2D& pos) override;
+  std::shared_ptr<Entity> createTile(const Vec2D& pos) override;
+  std::shared_ptr<Entity> createEnemy(const Vec2D& pos) override;
 };
 
-class SfFactory : public AbstractFactory
+class ViewFactory : public AbstractFactory
 {
-
+  std::shared_ptr<Entity> createPlayer(const Vec2D& pos) override;
+  std::shared_ptr<Entity> createPlatform(const Vec2D& pos) override;
+  std::shared_ptr<Entity> createTile(const Vec2D& pos) override;
+  std::shared_ptr<Entity> createEnemy(const Vec2D& pos) override;
 };
 
 #endif //ABSTRACTFACTORY_H

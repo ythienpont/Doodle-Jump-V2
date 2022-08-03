@@ -2,30 +2,30 @@
 
 int getNumberInRange(const int range)
 {
-  bool sign = Random::getInstance()->getValue()%2;
-  return sign*(-1)*(Random::getInstance()->getValue()%(range)+1);// I never want the number to be 0
+  bool sign = Logic::Random::getInstance()->getValue()%2;
+  return sign*(-1)*(Logic::Random::getInstance()->getValue()%(range)+1);// I never want the number to be 0
 }
 
-Platform::Platform(const Vec2D& startPos) : Entity(startPos, PWIDTH, PHEIGHT), jumpedOn(false) { }
+Logic::Platform::Platform(const Vec2D& startPos) : Model(startPos, PWIDTH, PHEIGHT), jumpedOn(false) { }
 
-void Platform::jumpOn()
+void Logic::Platform::jumpOn()
 {
   jumpedOn = true;
 }
 
-void Platform::update() { }
+void Logic::Platform::update() { }
 
-void HTelePlatform::update()
+void Logic::HTelePlatform::update()
 {
   setPosition(startPos+Vec2D(getNumberInRange(HRANGE),0));
 }
 
-void VTelePlatform::update()
+void Logic::VTelePlatform::update()
 {
   setPosition(startPos+Vec2D(0,getNumberInRange(VRANGE)));
 }
 
-void VPlatform::update()
+void Logic::VPlatform::update()
 {
   if (getPosition().y == startPos.y + HRANGE)
   {

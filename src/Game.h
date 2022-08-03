@@ -10,21 +10,24 @@ const int SCREENW = 480;
 const int SCREENH = 700;
 const double timePerFrame = (double) 1/60;
 
-class Game 
+namespace Representation
 {
-public: 
-  Game();
-  void run();
-private:
-  void processEvents();
-  void update(const double& deltaTime);
-  void render();
-  void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
-  void drawBackground();
+  class Game 
+  {
+  public: 
+    Game();
+    void run();
+  private:
+    void processEvents();
+    void update(const double& deltaTime);
+    void render();
+    void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+    void drawBackground();
 
-  sf::RenderWindow window;
+    sf::RenderWindow window;
 
-  std::unique_ptr<World> world;
-};
+    std::unique_ptr<Logic::World> world;
+  };
+}
 
 #endif //GAME_H

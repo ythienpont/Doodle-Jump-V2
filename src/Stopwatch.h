@@ -3,20 +3,22 @@
 
 #include <chrono>
 
-class Stopwatch 
+namespace Logic
 {
-private:
-  static Stopwatch* instance;
-  Stopwatch();
-  std::chrono::time_point<std::chrono::steady_clock> time;
+  class Stopwatch 
+  {
+  private:
+    static Stopwatch* instance;
+    Stopwatch();
+    std::chrono::time_point<std::chrono::steady_clock> time;
 
-public:
-  static Stopwatch* getInstance();
+  public:
+    static Stopwatch* getInstance();
 
-  void restart();
+    void restart();
 
-  double getElapsedTime() const;
+    double getElapsedTime() const;
 
-};
-
+  };
+}
 #endif //STOPWATCH_H

@@ -1,35 +1,35 @@
 #include "Player.h" 
 
-Player::Player(const Vec2D& pos) : Entity(pos, PLAYER_WIDTH, PLAYER_HEIGHT), Moving(Vec2D(0,0)), HP(PLAYER_HP) { }
+Logic::Player::Player(const Vec2D& pos) : Logic::Entity::Model(pos, PLAYER_WIDTH, PLAYER_HEIGHT), Logic::Moving(Vec2D(0,0)), HP(PLAYER_HP) { }
 
-void Player::jump() 
+void Logic::Player::jump() 
 {
   addVelocity(Vec2D(0, JUMP_HEIGHT));
 }
 
-void Player::update()
+void Logic::Player::update()
 {
   addVelocity(Vec2D(0, -GRAVITY));
 
   move(getVelocity());
 }
 
-bool Player::goingDown() const
+bool Logic::Player::goingDown() const
 {
   return getVelocity().y < 0;
 }
 
-int Player::getHP() const
+int Logic::Player::getHP() const
 {
   return HP;
 }
 
-void Player::setHP(const int newHP)
+void Logic::Player::setHP(const int newHP)
 {
   HP = newHP;
 }
 
-void Player::addHP(const int val)
+void Logic::Player::addHP(const int val)
 {
   HP += val;
 }

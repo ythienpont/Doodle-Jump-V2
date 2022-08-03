@@ -1,9 +1,14 @@
 #ifndef BGTILE_H
 #define BGTILE_H
 
-class BGTile 
-{
+#include "Model.h"
 
-};
+namespace Logic
+{
+  class BGTile : public Entity::Model
+  {
+
+  };
+}
 
 #endif //BGTILE_H

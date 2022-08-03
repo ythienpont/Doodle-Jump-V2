@@ -1,6 +1,6 @@
 #include "Projectile.h"
 
-bool Projectile::isFriendly() const 
+bool Logic::Projectile::isFriendly() const 
 {
   return friendly;
 }

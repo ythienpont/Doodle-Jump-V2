@@ -5,18 +5,20 @@
 #include "Platform.h"
 #include <memory>
 
-class World 
+namespace Logic
 {
-  std::unique_ptr<Player> player;
-  std::unique_ptr<Platform> platform;
-  void checkPlayerCollisions();
-  void checkProjectileCollisions();
-public:
-  World();
-  void update();
-  void movePlayerLeft();
-  void movePlayerRight();
-  void playerShoot();
-};
-
+  class World 
+  {
+    std::unique_ptr<Player> player;
+    std::unique_ptr<Platform> platform;
+    void checkPlayerCollisions();
+    void checkProjectileCollisions();
+  public:
+    World();
+    void update();
+    void movePlayerLeft();
+    void movePlayerRight();
+    void playerShoot();
+  };
+}
 #endif //WORLD_H

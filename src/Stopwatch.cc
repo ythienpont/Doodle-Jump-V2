@@ -1,24 +1,24 @@
 #include "Stopwatch.h"
 
 
-Stopwatch::Stopwatch()
+Logic::Stopwatch::Stopwatch()
 {
   time = std::chrono::steady_clock::now();
 }
 
-Stopwatch* Stopwatch::getInstance()
+Logic::Stopwatch* Logic::Stopwatch::getInstance()
 {
   if (!instance) instance = new Stopwatch;
 
   return instance;
 }
 
-void Stopwatch::restart()
+void Logic::Stopwatch::restart()
 {
   time = std::chrono::steady_clock::now();
 }
 
-double Stopwatch::getElapsedTime() const
+double Logic::Stopwatch::getElapsedTime() const
 {
   std::chrono::duration<double> duration = std::chrono::steady_clock::now() - time;
 

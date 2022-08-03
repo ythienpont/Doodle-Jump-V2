@@ -1,18 +1,21 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "Entity.h"
+#include "Model.h"
 
-const double throwingInterval = 10; // Throw an obstacle every 10 seconds
+const double THROWING_INTERVAL = 10; // Throw an obstacle every 10 seconds
 
-class Enemy : public Entity
+namespace Logic
 {
-  int HP;
-};
+  class Enemy : public Model
+  {
+    int HP;
+  };
 
-class ThrowingEnemy : public Enemy
-{
+  class ThrowingEnemy : public Enemy
+  {
 
-};
+  };
+}
 
 #endif //ENEMY_H

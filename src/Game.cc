@@ -1,12 +1,12 @@
 #include "Game.h"
 #include <iostream>
 
-Game::Game() : window(sf::VideoMode(SCREENW,SCREENH), "Doodle Jump")
+Representation::Game::Game() : window(sf::VideoMode(SCREENW,SCREENH), "Doodle Jump")
 {
-  world = std::make_unique<World>();
+  world = std::make_unique<Logic::World>();
 }
 
-void Game::run()
+void Representation::Game::run()
 {
   double timeSinceLastUpdate = 0;
   Stopwatch* clock = Stopwatch::getInstance();
@@ -26,7 +26,7 @@ void Game::run()
   }
 }
 
-void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
+void Representation::Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
   switch (key)
   {
@@ -42,7 +42,7 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
   }
 }
 
-void Game::processEvents()
+void Representation::Game::processEvents()
 {
   sf::Event event;
   while (window.pollEvent(event))
@@ -62,12 +62,12 @@ void Game::processEvents()
   }
 }
 
-void Game::update(const double& deltaTime)
+void Representation::Game::update(const double& deltaTime)
 {
 
 }
 
-void Game::render()
+void Representation::Game::render()
 {
   window.clear();
   drawBackground();
@@ -75,7 +75,7 @@ void Game::render()
 }
 
 
-void Game::drawBackground()
+void Representation::Game::drawBackground()
 {
   sf::Texture bgtexture;
   bgtexture.loadFromFile("images/bg.png");

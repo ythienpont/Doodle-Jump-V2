@@ -1,14 +1,17 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include "Entity.h"
+#include "Model.h"
 
-class Projectile : public Entity, Moving
+namespace Logic
 {
-private:
-  bool friendly;
-public:
-  bool isFriendly() const;
-};
+  class Projectile : public Entity::Model, Moving
+  {
+  private:
+    bool friendly;
+  public:
+    bool isFriendly() const;
+  };
+}
 
 #endif //PROJECTILE_H

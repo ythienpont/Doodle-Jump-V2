@@ -8,7 +8,7 @@ int main( int argc, char* argv[])
 {
   try
   {
-    Game game;
+    Representation::Game game;
     game.run();
   }
   catch (std::exception& e)

@@ -1,16 +1,19 @@
 #ifndef BONUS_H
 #define BONUS_H
 
-#include "Entity.h"
+#include "Model.h"
 
-class Bonus : public Entity
+namespace Logic
 {
-private:
-  double duration;
-  double jump_multiplier;
-  double velocity;
-  bool invincible;
-public:
-};
+  class Bonus : public Entity::Model
+  {
+  private:
+    double duration;
+    double jump_multiplier;
+    double velocity;
+    bool invincible;
+  public:
+  };
+}
 
 #endif //BONUS_H
