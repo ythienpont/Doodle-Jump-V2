@@ -9,11 +9,19 @@ namespace Logic
 {
   class Camera 
   {
+  private:
+    static Camera* instance;
+    Camera();
     double baseHeight;
   public:
-    Camera();
+    static Camera* getInstance();
 
-    Vec2D toPixelCoordinates(const Vec2D& pos);
+    Vec2D toPixelCoordinates(const Vec2D& pos) const;
+
+    bool isOutOfUpperBounds(const Vec2D& pos) const;
+    bool isOutOfLowerBounds(const Vec2D& pos) const;
+
+    void updateBaseHeight(const Vec2D& playerPos, const double& playerVel);
   };
 }
 #endif //CAMERA_H

@@ -4,21 +4,45 @@
 #include "Player.h"
 #include "Platform.h"
 #include <memory>
+#include "BGTile.h"
+#include "Bonus.h"
+#include "Enemy.h"
+#include "Projectile.h"
+#include "AbstractFactory.h"
+
+const double PLATFORM_OFFSET = 180;
+const int STARTINGDIFF = 30;
 
 namespace Logic
 {
   class World 
   {
     std::unique_ptr<Player> player;
-    std::unique_ptr<Platform> platform;
+    std::vector<std::unique_ptr<Platform> > platforms;
+    std::vector<std::unique_ptr<Enemy> > enemies;
+    std::vector<std::unique_ptr<Bonus> > bonuses;
+    std::vector<std::unique_ptr<BGTile> > tiles;
+    std::vector<std::unique_ptr<Projectile> > projectiles;
+
+    int difficulty;
+
     void checkPlayerCollisions();
     void checkProjectileCollisions();
+    Vec2D getHighestPlatformPosition() const;
+    void spawnPlatforms(std::shared_ptr<AbstractFactory> factory);
+    void spawnPlatform(std::shared_ptr<AbstractFactory> factory, const Vec2D& pos, const int platformType);
+    void spawnEnemies(std::shared_ptr<AbstractFactory> factory);
+    void spawnBonuses(std::shared_ptr<AbstractFactory> factory);
+    void spawnPlayerBullet(std::shared_ptr<AbstractFactory> factory);
+    int getTotalCredits() const;
+    void destroyEntities();
+    void destroyPlatforms();
   public:
-    World();
+    World(std::shared_ptr<AbstractFactory> factory);
+    void spawnEntities(std::shared_ptr<AbstractFactory> factory);
     void update();
-    void movePlayerLeft();
-    void movePlayerRight();
-    void playerShoot();
+    std::vector<std::shared_ptr<Representation::View> > getSprites() const;
+    void setPlayerState(const PlayerState& state);
   };
 }
 #endif //WORLD_H

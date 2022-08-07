@@ -5,9 +5,11 @@
 
 namespace Logic
 {
-  class BGTile : public Entity::Model
+  class BGTile : public Model
   {
-
+  public:
+    BGTile(const Vec2D& pos);
+    void update() override { }
   };
 }
 

@@ -3,13 +3,15 @@
 
 Representation::Game::Game() : window(sf::VideoMode(SCREENW,SCREENH), "Doodle Jump")
 {
-  world = std::make_unique<Logic::World>();
+  factory = std::make_shared<ConcreteFactory>();
+  world = std::make_unique<Logic::World>(factory);
 }
 
 void Representation::Game::run()
 {
   double timeSinceLastUpdate = 0;
-  Stopwatch* clock = Stopwatch::getInstance();
+  Logic::Stopwatch* clock = Logic::Stopwatch::getInstance();
+  int i = 0;
 
   while (window.isOpen())
   {
@@ -28,17 +30,25 @@ void Representation::Game::run()
 
 void Representation::Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
+  if (!isPressed)
+  {
+    world->setPlayerState(None);
+    return;
+  }
+
   switch (key)
   {
     case sf::Keyboard::X:
       window.close();
       break;
     case sf::Keyboard::A:
-      // Move Left
+      world->setPlayerState(Left);
       break;
     case sf::Keyboard::D:
-      //Move Right
+      world->setPlayerState(Right);
       break;
+    case sf::Keyboard::W:
+      world->setPlayerState(Shooting);
   }
 }
 
@@ -64,13 +74,21 @@ void Representation::Game::processEvents()
 
 void Representation::Game::update(const double& deltaTime)
 {
-
+  world->spawnEntities(factory);
+  world->update();
 }
 
 void Representation::Game::render()
 {
-  window.clear();
-  drawBackground();
+  window.clear(sf::Color::Black);
+  //drawBackground();
+
+  std::vector<std::shared_ptr<Representation::View> > sprites = world->getSprites();
+
+  for (auto& sprite : sprites)
+  {
+    window.draw(*sprite);
+  }
   window.display();
 }
 

@@ -5,6 +5,7 @@
 
 class Observer 
 {
+public:
   virtual void update(const Vec2D& position) = 0;
 };
 

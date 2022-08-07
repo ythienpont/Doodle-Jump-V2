@@ -13,14 +13,14 @@ const std::string TEMPPLATFORMTEXTUREFILE = "images/temporary_platform.png";
 
 namespace Representation
 {
-  class View : public Observer, public sf::Sprite, public Entity
+  class View : public Observer, public sf::RectangleShape, public Entity
   {
   public:
     View(const Vec2D& position);
 
     void applyTexture(const std::string& texturePath);
     // Observer code
-    void update(const Vec2D& position) override { }
+    void update(const Vec2D& position) override;
   };
 
   class Player : public View
@@ -37,29 +37,40 @@ namespace Representation
 
   class HPlatform : public View
   {
+  public:
     HPlatform(const Vec2D& position);
   };
 
   class VPlatform : public View
   {
+  public:
     VPlatform(const Vec2D& position);
   };
 
   class TempPlatform : public View
   {
-
+  public:
     TempPlatform(const Vec2D& position);
   };
 
   class HTelePlatform : public View
   {
+  public:
     HTelePlatform(const Vec2D& position);
   };
 
   class VTelePlatform : public View
   {
+  public:
     VTelePlatform(const Vec2D& position);
   };
+  
+  class Enemy : public View
+  {
+  public:
+    Enemy(const Vec2D& position);
+  };
+
 
   class BGTile : public View 
   {
@@ -78,7 +89,8 @@ namespace Representation
 
   class PlayerBullet : public View
   {
-
+  public:
+    PlayerBullet(const Vec2D& position);
   };
 
   class EnemyBullet : public View

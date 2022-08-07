@@ -62,3 +62,18 @@ void Logic::Moving::addVelocity(const Vec2D& vel)
 {
   velocity += vel;
 }
+
+void Logic::Model::registerObserver(std::shared_ptr<Representation::View> observer)
+{
+  view = observer; 
+}
+
+void Logic::Model::removeObserver(std::shared_ptr<Representation::View> observer)
+{
+  view = nullptr;
+}
+
+void Logic::Model::notifyObservers()
+{
+  view->update(Camera::getInstance()->toPixelCoordinates(pos));
+}

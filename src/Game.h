@@ -6,8 +6,6 @@
 #include "Random.h"
 #include "World.h"
 
-const int SCREENW = 480;
-const int SCREENH = 700;
 const double timePerFrame = (double) 1/60;
 
 namespace Representation
@@ -27,6 +25,7 @@ namespace Representation
     sf::RenderWindow window;
 
     std::unique_ptr<Logic::World> world;
+    std::shared_ptr<AbstractFactory> factory;
   };
 }
 

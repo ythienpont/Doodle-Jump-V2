@@ -10,6 +10,9 @@ namespace Logic
   class Enemy : public Model
   {
     int HP;
+  public:
+  Enemy(const Vec2D& pos);
+    void update() override { }
   };
 
   class ThrowingEnemy : public Enemy

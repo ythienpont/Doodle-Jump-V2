@@ -5,7 +5,7 @@
 
 namespace Logic
 {
-  class Bonus : public Entity::Model
+  class Bonus : public Model
   {
   private:
     double duration;

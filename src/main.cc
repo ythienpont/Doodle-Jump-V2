@@ -1,8 +1,9 @@
 #include "Game.h"
 #include <iostream>
 
-Stopwatch* Stopwatch::instance = 0;
-Random* Random::instance = 0;
+Logic::Stopwatch* Logic::Stopwatch::instance = 0;
+Logic::Random* Logic::Random::instance = 0;
+Logic::Camera* Logic::Camera::instance = 0;
 
 int main( int argc, char* argv[])
 {
@@ -15,4 +16,6 @@ int main( int argc, char* argv[])
   {
     std::cerr << "\n" << e.what() << std::endl;
   }
+
+  // Delete singleton insances
 }

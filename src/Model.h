@@ -7,6 +7,7 @@
 #include "Subject.h"
 #include "View.h"
 #include "Entity.h"
+#include "Camera.h"
 
 namespace Logic
 {
@@ -42,9 +43,9 @@ namespace Logic
 
 
     // Subject code
-    void registerObserver(Observer* observer) override { }
-    void removeObserver(Observer* observer) override { }
-    void notifyObservers() override { }
+    void registerObserver(std::shared_ptr<Representation::View> observer) override;
+    void removeObserver(std::shared_ptr<Representation::View> observer) override;
+    void notifyObservers() override;
   };
 }
 

@@ -7,7 +7,7 @@
 
 namespace Textures
 {
-  enum ID { Player, Background, Platform };
+  enum ID { Player, Background, Platform, HPlatform, VPlatform, TempPlatform, PlayerBullet, EnemyBullet };
 }
 
 class TextureHolder
