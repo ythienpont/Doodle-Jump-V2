@@ -2,6 +2,8 @@
 #define PLAYER_H
 
 #include "Model.h"
+#include "Bonus.h"
+#include "Stopwatch.h"
 
 const int PLAYER_HP = 3;
 const double JUMP_HEIGHT = 25;
@@ -13,21 +15,22 @@ enum PlayerState { Shooting, Left, Right, None };
 
 namespace Logic
 {
-  class Player : public Model, public Moving
+  class Player : public Model, public Moving, public Living
   {
-    int HP;
     PlayerState state;
+    std::shared_ptr<Bonus> bonus;
+    void parseBonus();
   public: 
     Player(const Vec2D& pos);
     void jump();
     void update() override;
     bool goingDown() const;
-
-    int getHP() const;
-    void setHP(const int newHP);
-    void addHP(const int val);
+    bool hasBonus() const;
 
     void setPlayerState(const PlayerState& ps);
+
+    void addBonus(std::shared_ptr<Bonus> theBonus);
+    void removeBonus();
 
     bool isShooting() const;
     void reset();

@@ -4,13 +4,20 @@
 Logic::World::World(std::shared_ptr<AbstractFactory> factory) : difficulty(STARTINGDIFF)
 {
   player = factory->createPlayer(Vec2D(240,100));
-  //player = factory->createPlayer(Vec2D(120,100));
   platforms.push_back(factory->createPlatform(Vec2D(240,60)));
 }
 
 void Logic::World::checkPlayerCollisions()
 {
   // Loop over enemies, doesn't matter if going down
+  for (auto& enemy : enemies)
+  {
+    if (player->collidesWith(*enemy))
+    {
+      player->hit();
+      enemy->kill();
+    }
+  }
   if (player->goingDown())
   {
     // Loop over all platforms and bonuses
@@ -19,7 +26,7 @@ void Logic::World::checkPlayerCollisions()
     {
       if (player->collidesWith(*bonus))
       {
-        // Add bonus
+        player->addBonus(bonus);
       }
     }
     for (auto& platform : platforms)
@@ -58,7 +65,6 @@ int Logic::World::getTotalCredits() const
 void Logic::World::spawnEntities(std::shared_ptr<AbstractFactory> factory)
 {
   spawnPlatforms(factory); 
-  spawnEnemies(factory);
 
   if (player->isShooting())
   {
@@ -69,17 +75,51 @@ void Logic::World::spawnEntities(std::shared_ptr<AbstractFactory> factory)
 
 void Logic::World::spawnPlayerBullet(std::shared_ptr<AbstractFactory> factory)
 {
-  projectiles.push_back(factory->createPlayerBullet(player->getPosition()));
+  projectiles.push_back(factory->createPlayerBullet(Vec2D(player->getPosition().x+PLAYER_WIDTH/2,player->getPosition().y)));
 }
 
-void Logic::World::spawnEnemies(std::shared_ptr<AbstractFactory> factory)
+void Logic::World::spawnEnemy(std::shared_ptr<AbstractFactory> factory)
 {
+  Vec2D randomPos(Random::getInstance()->getValue() % (int) (SCREENW-PWIDTH),
+      getHighestPlatformPosition().y+PLATFORM_OFFSET);
 
+  platforms.push_back(factory->createPlatform(randomPos)); 
+
+  randomPos = Vec2D(Random::getInstance()->getValue() % (int) (SCREENW-PWIDTH), randomPos.y-(Random::getInstance()->getValue()% (int) PLATFORM_OFFSET));
+
+  platforms.push_back(factory->createPlatform(randomPos));
+
+  enemies.push_back(factory->createEnemy(Vec2D(randomPos.x+16,randomPos.y+16)));
+  
 }
 
-void Logic::World::spawnBonuses(std::shared_ptr<AbstractFactory> factory)
+void Logic::World::spawnBonus(std::shared_ptr<AbstractFactory> factory)
 {
+  Vec2D randomPos(Random::getInstance()->getValue() % (int) (SCREENW-PWIDTH),
+      getHighestPlatformPosition().y+PLATFORM_OFFSET);
 
+  platforms.push_back(factory->createPlatform(randomPos)); 
+
+  randomPos = Vec2D(Random::getInstance()->getValue() % (int) (SCREENW-PWIDTH), randomPos.y-(Random::getInstance()->getValue()% (int) PLATFORM_OFFSET));
+
+  platforms.push_back(factory->createPlatform(randomPos));
+
+  int bonusType = Random::getInstance()->getValue() % BONUS_AMT;
+  switch (bonusType)
+  {
+    case 0:
+      bonuses.push_back(factory->createSpikes(Vec2D(randomPos.x,randomPos.y+16)));
+      break;
+    case 1:
+      bonuses.push_back(factory->createHeart(Vec2D(randomPos.x+20,randomPos.y+16)));
+      break;
+    case 2:
+      bonuses.push_back(factory->createJetpack(Vec2D(randomPos.x+20,randomPos.y+16)));
+      break;
+     default:
+      bonuses.push_back(factory->createSpring(Vec2D(randomPos.x+20,randomPos.y+16)));
+      break;
+  }
 }
 
 void Logic::World::spawnPlatform(std::shared_ptr<AbstractFactory> factory, const Vec2D& pos, const int platformType)
@@ -94,6 +134,18 @@ void Logic::World::spawnPlatform(std::shared_ptr<AbstractFactory> factory, const
         break;
       case 2:
         platforms.push_back(factory->createTempPlatform(pos));
+        break;
+      case 3:
+        spawnEnemy(factory);
+        break;
+      case 4:
+        platforms.push_back(factory->createHTelePlatform(pos));
+        break;
+      case 5:
+        platforms.push_back(factory->createVTelePlatform(pos));
+        break;
+      case 6:
+        spawnBonus(factory);
         break;
       default:
         platforms.push_back(factory->createPlatform(pos)); 
@@ -160,7 +212,7 @@ void Logic::World::checkProjectileCollisions()
       {
         if (projectile->collidesWith(*enemy))
         {
-          // Remove enemy and projectile
+          enemy->hit();
         }
       }
     }
@@ -168,7 +220,7 @@ void Logic::World::checkProjectileCollisions()
     {
       if (projectile->collidesWith(*player))
       {
-        // Remove player and projectile
+        player->hit();
       }
     }
   }

@@ -5,22 +5,20 @@
 #include "Random.h"
 
 const int VRANGE = 100;
-const int HRANGE = 20;
+const int HRANGE = 200;
 const double PWIDTH = 64;
 const double PHEIGHT = 16;
 
 namespace Logic
 {
-  class Platform : public Model
+  class Platform : public Model , public Jumpable
   {
     bool jumpedOn;
     int credits; // Used for controlling difficulty
   public:
     Platform(const Vec2D& startPos);
-    virtual void update() override;
-    bool hasBeenJumpedOn() const;
-    void jumpOn();
     int getCredits() const;
+    virtual void update() override;
   protected:
     Platform(const Vec2D& pos, const int creds);
   };
@@ -44,7 +42,7 @@ namespace Logic
   {
   public:
     TempPlatform(const Vec2D& pos);
-    void update() override;
+    void jumpOn() override;
   };
 
   class HTelePlatform : public Platform
@@ -52,7 +50,7 @@ namespace Logic
     Vec2D startPos;
   public:
     HTelePlatform(const Vec2D& pos);
-    void update() override;
+    void jumpOn() override;
   };
 
   class VTelePlatform : public Platform
@@ -60,7 +58,7 @@ namespace Logic
     Vec2D startPos;
   public:
     VTelePlatform(const Vec2D& pos);
-    void update() override;
+    void jumpOn() override;
   };
 }
 #endif //PLATFORM_H

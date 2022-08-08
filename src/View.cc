@@ -46,7 +46,21 @@ Representation::HPlatform::HPlatform(const Vec2D& position) : View(position)
   setSize(sf::Vector2f(64,-16));
 }
 
+Representation::HTelePlatform::HTelePlatform(const Vec2D& position) : View(position)
+{
+  //applyTexture(HPLATFORMTEXTUREFILE);
+  setFillColor(sf::Color::Blue);
+  setSize(sf::Vector2f(64,-16));
+}
+
 Representation::VPlatform::VPlatform(const Vec2D& position) : View(position)
+{
+  //applyTexture(VPLATFORMTEXTUREFILE);
+  setFillColor(sf::Color::Yellow);
+  setSize(sf::Vector2f(64,-16));
+}
+
+Representation::VTelePlatform::VTelePlatform(const Vec2D& position) : View(position)
 {
   //applyTexture(VPLATFORMTEXTUREFILE);
   setFillColor(sf::Color::Yellow);
@@ -64,12 +78,36 @@ Representation::Enemy::Enemy(const Vec2D& position) : View(position)
 {
   //applyTexture(TEMPPLATFORMTEXTUREFILE);
   setFillColor(sf::Color::Red);
-  setSize(sf::Vector2f(20,-20));
+  setSize(sf::Vector2f(30,-30));
 }
 
 Representation::PlayerBullet::PlayerBullet(const Vec2D& position) : View(position)
 {
   //applyTexture(TEMPPLATFORMTEXTUREFILE);
-  setFillColor(sf::Color::Blue);
-  setSize(sf::Vector2f(3,-10));
+  setFillColor(sf::Color::Cyan);
+  setSize(sf::Vector2f(5,-20));
+}
+
+Representation::Spikes::Spikes(const Vec2D& position) : View(position)
+{
+  setFillColor(sf::Color::Red);
+  setSize(sf::Vector2f(64,-4));
+}
+
+Representation::Spring::Spring(const Vec2D& position) : View(position)
+{
+  setFillColor(sf::Color(190, 190, 190));
+  setSize(sf::Vector2f(20,-20));
+}
+
+Representation::Heart::Heart(const Vec2D& position) : View(position)
+{
+  setFillColor(sf::Color::Green);
+  setSize(sf::Vector2f(20,-20));
+}
+
+Representation::Jetpack::Jetpack(const Vec2D& position) : View(position)
+{
+  setFillColor(sf::Color(190, 190, 190));
+  setSize(sf::Vector2f(16,-40));
 }

@@ -4,6 +4,7 @@
 #include "Observer.h"
 #include "Entity.h"
 #include <SFML/Graphics.hpp>
+//#include "Enemy.h"
 
 const std::string PLAYERTEXTUREFILE = "images/player.png";
 const std::string PLATFORMTEXTUREFILE = "images/static_platform.png";
@@ -79,12 +80,26 @@ namespace Representation
 
   class Spring : public View
   {
-
+  public:
+    Spring(const Vec2D& position);
   };
 
   class Jetpack : public View
   {
+  public:
+    Jetpack(const Vec2D& position);
+  };
 
+  class Heart : public View
+  {
+  public:
+    Heart(const Vec2D& position);
+  };
+
+  class Spikes : public View
+  {
+  public:
+    Spikes(const Vec2D& position);
   };
 
   class PlayerBullet : public View

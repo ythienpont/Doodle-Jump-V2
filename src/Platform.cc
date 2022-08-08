@@ -10,19 +10,9 @@ Logic::Platform::Platform(const Vec2D& startPos) : Model(startPos, PWIDTH, PHEIG
 
 Logic::Platform::Platform(const Vec2D& startPos, const int creds) : Model(startPos, PWIDTH, PHEIGHT), jumpedOn(false), credits(creds) { }
 
-void Logic::Platform::jumpOn()
-{
-  jumpedOn = true;
-}
-
 int Logic::Platform::getCredits() const
 {
   return credits;
-}
-
-bool Logic::Platform::hasBeenJumpedOn() const
-{
-  return jumpedOn;
 }
 
 Logic::HPlatform::HPlatform(const Vec2D& pos) : Platform(pos, 2), Moving(Vec2D(1,0)) { }
@@ -39,16 +29,24 @@ void Logic::Platform::update() {
   notifyObservers();
 }
 
-void Logic::HTelePlatform::update()
+void Logic::HTelePlatform::jumpOn()
 {
-  setPosition(startPos+Vec2D(getNumberInRange(HRANGE),0));
-  notifyObservers();
+  int newX = newX + getNumberInRange(HRANGE);
+  if (newX <= SCREENW/2)
+  {
+    newX = std::max(0,newX);
+  }
+  else
+  {
+    newX = std::min((int)(SCREENW-PWIDTH),newX);
+  }
+
+  setPosition(Vec2D(newX,getPosition().y));
 }
 
-void Logic::VTelePlatform::update()
+void Logic::VTelePlatform::jumpOn()
 {
   setPosition(startPos+Vec2D(0,getNumberInRange(VRANGE)));
-  notifyObservers();
 }
 
 void Logic::VPlatform::update()
@@ -66,10 +64,9 @@ void Logic::VPlatform::update()
   notifyObservers();
 }
 
-void Logic::TempPlatform::update()
+void Logic::TempPlatform::jumpOn()
 {
-  if (hasBeenJumpedOn()) move(Vec2D(0, -10000)); // Make sure object is out of bounds
-  notifyObservers();
+  moveOutOfBounds();
 }
 
 void Logic::HPlatform::update()

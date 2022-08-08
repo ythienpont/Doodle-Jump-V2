@@ -20,7 +20,7 @@ namespace Logic
     std::unique_ptr<Player> player;
     std::vector<std::unique_ptr<Platform> > platforms;
     std::vector<std::unique_ptr<Enemy> > enemies;
-    std::vector<std::unique_ptr<Bonus> > bonuses;
+    std::vector<std::shared_ptr<Bonus> > bonuses;
     std::vector<std::unique_ptr<BGTile> > tiles;
     std::vector<std::unique_ptr<Projectile> > projectiles;
 
@@ -31,8 +31,8 @@ namespace Logic
     Vec2D getHighestPlatformPosition() const;
     void spawnPlatforms(std::shared_ptr<AbstractFactory> factory);
     void spawnPlatform(std::shared_ptr<AbstractFactory> factory, const Vec2D& pos, const int platformType);
-    void spawnEnemies(std::shared_ptr<AbstractFactory> factory);
-    void spawnBonuses(std::shared_ptr<AbstractFactory> factory);
+    void spawnEnemy(std::shared_ptr<AbstractFactory> factory);
+    void spawnBonus(std::shared_ptr<AbstractFactory> factory);
     void spawnPlayerBullet(std::shared_ptr<AbstractFactory> factory);
     int getTotalCredits() const;
     void destroyEntities();

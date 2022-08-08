@@ -21,6 +21,30 @@ namespace Logic
     void addVelocity(const Vec2D& vel);
   };
 
+  class Jumpable
+  {
+  private:
+    bool jumpedOn;
+  public:
+    Jumpable();
+    bool hasBeenJumpedOn() const;
+    virtual void jumpOn();
+    void resetJumpedOn();
+  };
+
+  class Living
+  {
+    int hp;
+  public:
+    Living(const int points);
+    int getHP() const;
+    void setHP(const int points);
+    void addHP(const int points);
+    void kill();
+    void hit();
+    bool isDead() const;
+  };
+
   class Model : public Subject, public Entity
   {
   public:
@@ -41,11 +65,12 @@ namespace Logic
 
     bool collidesWith(const Model& e);
 
-
     // Subject code
     void registerObserver(std::shared_ptr<Representation::View> observer) override;
     void removeObserver(std::shared_ptr<Representation::View> observer) override;
     void notifyObservers() override;
+  protected:
+    void moveOutOfBounds();
   };
 }
 

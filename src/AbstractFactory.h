@@ -18,11 +18,17 @@ public:
   virtual std::unique_ptr<Logic::Player> createPlayer(const Vec2D& pos)=0;
   virtual std::unique_ptr<Logic::Platform> createPlatform(const Vec2D& pos)=0;
   virtual std::unique_ptr<Logic::HPlatform> createHPlatform(const Vec2D& pos)=0;
+  virtual std::unique_ptr<Logic::HTelePlatform> createHTelePlatform(const Vec2D& pos)=0;
   virtual std::unique_ptr<Logic::VPlatform> createVPlatform(const Vec2D& pos)=0;
+  virtual std::unique_ptr<Logic::VTelePlatform> createVTelePlatform(const Vec2D& pos)=0;
   virtual std::unique_ptr<Logic::TempPlatform> createTempPlatform(const Vec2D& pos)=0;
   virtual std::unique_ptr<Logic::BGTile> createTile(const Vec2D& pos)=0;
   virtual std::unique_ptr<Logic::Enemy> createEnemy(const Vec2D& pos)=0;
   virtual std::unique_ptr<Logic::PlayerBullet> createPlayerBullet(const Vec2D& pos)=0;
+  virtual std::shared_ptr<Logic::Spikes> createSpikes(const Vec2D& pos)=0;
+  virtual std::shared_ptr<Logic::Spring> createSpring(const Vec2D& pos)=0;
+  virtual std::shared_ptr<Logic::Heart> createHeart(const Vec2D& pos)=0;
+  virtual std::shared_ptr<Logic::Jetpack> createJetpack(const Vec2D& pos)=0;
 };
 
 class ConcreteFactory : public AbstractFactory
@@ -31,11 +37,17 @@ public:
   std::unique_ptr<Logic::Player> createPlayer(const Vec2D& pos) override;
   std::unique_ptr<Logic::Platform> createPlatform(const Vec2D& pos) override;
   std::unique_ptr<Logic::HPlatform> createHPlatform(const Vec2D& pos) override;
+  std::unique_ptr<Logic::HTelePlatform> createHTelePlatform(const Vec2D& pos) override;
   std::unique_ptr<Logic::VPlatform> createVPlatform(const Vec2D& pos) override;
+  std::unique_ptr<Logic::VTelePlatform> createVTelePlatform(const Vec2D& pos) override;
   std::unique_ptr<Logic::TempPlatform> createTempPlatform(const Vec2D& pos) override;
   std::unique_ptr<Logic::BGTile> createTile(const Vec2D& pos) override;
   std::unique_ptr<Logic::Enemy> createEnemy(const Vec2D& pos) override;
   std::unique_ptr<Logic::PlayerBullet> createPlayerBullet(const Vec2D& pos) override;
+  std::shared_ptr<Logic::Spikes> createSpikes(const Vec2D& pos) override;
+  std::shared_ptr<Logic::Spring> createSpring(const Vec2D& pos) override;
+  std::shared_ptr<Logic::Heart> createHeart(const Vec2D& pos) override;
+  std::shared_ptr<Logic::Jetpack> createJetpack(const Vec2D& pos) override;
 };
 
 #endif //ABSTRACTFACTORY_H

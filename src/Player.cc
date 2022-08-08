@@ -1,14 +1,16 @@
 #include "Player.h" 
+#include <iostream>
 
-Logic::Player::Player(const Vec2D& pos) : Logic::Model(pos, PLAYER_WIDTH, PLAYER_HEIGHT/4), Logic::Moving(Vec2D(0,0)), HP(PLAYER_HP) { }
+Logic::Player::Player(const Vec2D& pos) : Logic::Model(pos, PLAYER_WIDTH, PLAYER_HEIGHT/4), Logic::Moving(Vec2D(0,0)), Living(PLAYER_HP), bonus(nullptr) { }
 
 void Logic::Player::jump() 
 {
-  setVelocity(Vec2D(0, JUMP_HEIGHT));
+    setVelocity(Vec2D(0, JUMP_HEIGHT));
 }
 
 void Logic::Player::update()
 {
+  if (isDead()) moveOutOfBounds();
   addVelocity(Vec2D(0, -GRAVITY));
   switch (state)
   {
@@ -24,6 +26,15 @@ void Logic::Player::update()
       setVelocity(Vec2D(0, getVelocity().y));
       break;
   }
+  
+  if (hasBonus() and bonus->getVelocity() > 0)
+  {
+    setVelocity(Vec2D(getVelocity().x, bonus->getVelocity()));
+    bonus->decreaseDuration(Logic::Stopwatch::getInstance()->getElapsedTime()*1000);
+  }
+
+  if (hasBonus() and bonus->isDone())
+    removeBonus();
 
   move(getVelocity());
 
@@ -45,21 +56,6 @@ bool Logic::Player::goingDown() const
   return getVelocity().y < -2; // Yes, under 0 is also 'going down' but this gives a more natural jump effect
 }
 
-int Logic::Player::getHP() const
-{
-  return HP;
-}
-
-void Logic::Player::setHP(const int newHP)
-{
-  HP = newHP;
-}
-
-void Logic::Player::addHP(const int val)
-{
-  HP += val;
-}
-
 bool Logic::Player::isShooting() const
 {
   return state == Shooting;
@@ -70,3 +66,32 @@ void Logic::Player::reset()
   state = None;
 }
 
+
+bool Logic::Player::hasBonus() const
+{
+  return bonus != nullptr;
+}
+
+void Logic::Player::addBonus(std::shared_ptr<Bonus> theBonus)
+{
+  bonus = theBonus; 
+  parseBonus();
+}
+
+void Logic::Player::removeBonus()
+{
+  bonus = nullptr;
+}
+
+void Logic::Player::parseBonus()
+{
+  if (bonus->getDuration() == 0)
+  {
+    addHP(bonus->getHealth());
+    if (bonus->getJumpMultiplier() > 0)
+      setVelocity(Vec2D(0, bonus->getJumpMultiplier()*JUMP_HEIGHT));
+  }
+
+  if (bonus->getVelocity() > 0)
+    setVelocity(Vec2D(0, bonus->getVelocity()));
+}

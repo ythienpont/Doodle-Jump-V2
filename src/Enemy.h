@@ -3,21 +3,28 @@
 
 #include "Model.h"
 
+const int ENEMY_HP = 1;
+const int SHOOTINGENEMY_HP = 2;
+const double SENEMY_WIDTH = 40;
+const double SENEMY_HEIGHT = 40;
+const double ENEMY_HEIGHT = 30;
+const double ENEMY_WIDTH = 30;
 const double THROWING_INTERVAL = 10; // Throw an obstacle every 10 seconds
 
 namespace Logic
 {
-  class Enemy : public Model
+  class Enemy : public Model, public Living
   {
-    int HP;
   public:
-  Enemy(const Vec2D& pos);
-    void update() override { }
+    Enemy(const Vec2D& pos);
+    void update() override;
   };
 
-  class ThrowingEnemy : public Enemy
+  class ShootingEnemy : public Model, public Living
   {
-
+  public:
+    ShootingEnemy(const Vec2D& pos);
+    void update() override;
   };
 }
 

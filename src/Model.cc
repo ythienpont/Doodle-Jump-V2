@@ -77,3 +77,57 @@ void Logic::Model::notifyObservers()
 {
   view->update(Camera::getInstance()->toPixelCoordinates(pos));
 }
+
+void Logic::Model::moveOutOfBounds()
+{
+  move(Vec2D(0, -10000));
+}
+
+Logic::Living::Living(const int points) : hp(points) { }
+
+bool Logic::Living::isDead() const
+{
+  return hp <= 0;
+}
+
+void Logic::Living::addHP(const int points)
+{
+  hp += points;
+}
+
+void Logic::Living::setHP(const int points)
+{
+  hp = points;
+}
+
+int Logic::Living::getHP() const
+{
+  return hp;
+}
+
+void Logic::Living::kill()
+{
+  hp = 0;
+}
+
+Logic::Jumpable::Jumpable() : jumpedOn(false) { }
+
+bool Logic::Jumpable::hasBeenJumpedOn() const
+{
+  return jumpedOn;
+}
+
+void Logic::Jumpable::resetJumpedOn()
+{
+  jumpedOn = false;
+}
+
+void Logic::Jumpable::jumpOn()
+{
+  jumpedOn = true;
+}
+
+void Logic::Living::hit()
+{
+  hp -= 1;
+}
