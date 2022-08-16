@@ -42,7 +42,7 @@ namespace Logic
   {
   public:
     Heart(const Vec2D& pos);
-    void update() override;
+    void jumpOn() override;
   };
 
   class Jetpack : public Bonus

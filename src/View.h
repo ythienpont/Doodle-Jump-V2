@@ -72,6 +72,12 @@ namespace Representation
     Enemy(const Vec2D& position);
   };
 
+  class ShootingEnemy : public View
+  {
+  public:
+    ShootingEnemy(const Vec2D& position);
+  };
+
 
   class BGTile : public View 
   {
@@ -110,7 +116,8 @@ namespace Representation
 
   class EnemyBullet : public View
   {
-
+  public:
+    EnemyBullet(const Vec2D& position);
   };
 }
 

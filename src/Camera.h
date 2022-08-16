@@ -4,7 +4,8 @@
 #include "Vec2D.h"
 
 const int SCREENW = 480;
-const int SCREENH = 700;
+//const int SCREENH = 700;
+const int SCREENH = 900;
 namespace Logic
 {
   class Camera 

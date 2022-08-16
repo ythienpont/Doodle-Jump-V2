@@ -6,7 +6,6 @@
 #include "Random.h"
 #include "World.h"
 
-const double timePerFrame = (double) 1/60;
 
 namespace Representation
 {

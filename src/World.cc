@@ -21,12 +21,12 @@ void Logic::World::checkPlayerCollisions()
   if (player->goingDown())
   {
     // Loop over all platforms and bonuses
-
     for (auto& bonus : bonuses)
     {
       if (player->collidesWith(*bonus))
       {
         player->addBonus(bonus);
+        bonus->jumpOn();
       }
     }
     for (auto& platform : platforms)
@@ -46,7 +46,7 @@ Vec2D Logic::World::getHighestPlatformPosition() const
 
   for (auto& platform : platforms)
   {
-    if (platform->getPosition().y > highest.y) highest = platform->getPosition();  
+    if (platform->getPosition().y > highest.y) highest = platform->getPosition();
   }
 
   return highest;
@@ -64,12 +64,20 @@ int Logic::World::getTotalCredits() const
 
 void Logic::World::spawnEntities(std::shared_ptr<AbstractFactory> factory)
 {
-  spawnPlatforms(factory); 
+  spawnPlatforms(factory);
 
   if (player->isShooting())
   {
     spawnPlayerBullet(factory);
     player->reset();
+  }
+
+  for (auto& enemy : enemies)
+  {
+    if (enemy->isShooting())
+    {
+      projectiles.push_back(factory->createEnemyBullet(enemy->getPosition()+Vec2D(20,0)));
+    }
   }
 }
 
@@ -89,8 +97,16 @@ void Logic::World::spawnEnemy(std::shared_ptr<AbstractFactory> factory)
 
   platforms.push_back(factory->createPlatform(randomPos));
 
-  enemies.push_back(factory->createEnemy(Vec2D(randomPos.x+16,randomPos.y+16)));
-  
+  bool shooting = Random::getInstance()->getValue()%2;
+
+  if (shooting)
+  {
+    enemies.push_back(factory->createShootingEnemy(Vec2D(randomPos.x+10,randomPos.y+16)));
+  }
+  else
+  {
+    enemies.push_back(factory->createEnemy(Vec2D(randomPos.x+16,randomPos.y+16)));
+  }
 }
 
 void Logic::World::spawnBonus(std::shared_ptr<AbstractFactory> factory)
@@ -148,7 +164,7 @@ void Logic::World::spawnPlatform(std::shared_ptr<AbstractFactory> factory, const
         spawnBonus(factory);
         break;
       default:
-        platforms.push_back(factory->createPlatform(pos)); 
+        platforms.push_back(factory->createPlatform(pos));
         break;
     }
 }
@@ -163,25 +179,13 @@ void Logic::World::spawnPlatforms(std::shared_ptr<AbstractFactory> factory)
 
     spawnPlatform(factory, randomPos, platformType);
   }
-
-  /*
-  // Could be optimized, but the length of the platform array will never be large enough to comprimise on readability
-  while (getTotalCredits() < difficulty - 3)
-  {
-    int platformType = Random::getInstance()->getValue() % (difficulty/2);
-    Vec2D randomPos(Random::getInstance()->getValue() % (int) (SCREENW-PWIDTH),
-        player->getPosition().y+SCREENH+(Random::getInstance()->getValue() % 180));
-  
-    spawnPlatform(factory, randomPos, platformType);
-  }
-  */
 }
 
 
 std::vector<std::shared_ptr<Representation::View> > Logic::World::getSprites() const
 {
   std::vector<std::shared_ptr<Representation::View> > sprites;
-  
+
   for (auto& platform : platforms)
     sprites.push_back(platform->view);
 
@@ -211,17 +215,13 @@ void Logic::World::checkProjectileCollisions()
       for (auto& enemy : enemies)
       {
         if (projectile->collidesWith(*enemy))
-        {
           enemy->hit();
-        }
       }
     }
     else
     {
       if (projectile->collidesWith(*player))
-      {
         player->hit();
-      }
     }
   }
 }
@@ -261,7 +261,10 @@ void Logic::World::setPlayerState(const PlayerState& state)
 
 void Logic::World::destroyEntities()
 {
-  destroyPlatforms(); 
+  destroyPlatforms();
+  destroyBonuses();
+  destroyEnemies();
+  destroyProjectiles();
 }
 
 void Logic::World::destroyPlatforms()
@@ -270,11 +273,62 @@ void Logic::World::destroyPlatforms()
 
   for (int i = 0; i < platforms.size(); ++i)
     if (Camera::getInstance()->isOutOfLowerBounds(platforms[i]->getPosition())) toBeDeleted.push_back(i);
-  
+
   for (int i = 0; i < toBeDeleted.size(); ++i)
     toBeDeleted[i] -= i;
 
   for (const auto& index : toBeDeleted)
     platforms.erase(platforms.begin()+index);
 
+}
+
+void Logic::World::destroyBonuses()
+{
+  std::vector<int> toBeDeleted;
+
+  for (int i = 0; i < bonuses.size(); ++i)
+    if (Camera::getInstance()->isOutOfLowerBounds(bonuses[i]->getPosition())) toBeDeleted.push_back(i);
+
+  for (int i = 0; i < toBeDeleted.size(); ++i)
+    toBeDeleted[i] -= i;
+
+  for (const auto& index : toBeDeleted)
+    bonuses.erase(bonuses.begin()+index);
+
+}
+
+void Logic::World::destroyEnemies()
+{
+  std::vector<int> toBeDeleted;
+
+  for (int i = 0; i < enemies.size(); ++i)
+    if (Camera::getInstance()->isOutOfLowerBounds(enemies[i]->getPosition())) toBeDeleted.push_back(i);
+
+  for (int i = 0; i < toBeDeleted.size(); ++i)
+    toBeDeleted[i] -= i;
+
+  for (const auto& index : toBeDeleted)
+    enemies.erase(enemies.begin()+index);
+}
+
+void Logic::World::destroyProjectiles()
+{
+  std::vector<int> toBeDeleted;
+
+  for (int i = 0; i < projectiles.size(); ++i)
+  { if (projectiles[i]->isFriendly())
+    {
+      if (Camera::getInstance()->isOutOfUpperBounds(projectiles[i]->getPosition())) toBeDeleted.push_back(i);
+    }
+    else
+    {
+      if (Camera::getInstance()->isOutOfLowerBounds(projectiles[i]->getPosition())) toBeDeleted.push_back(i);
+    }
+  }
+
+  for (int i = 0; i < toBeDeleted.size(); ++i)
+    toBeDeleted[i] -= i;
+
+  for (const auto& index : toBeDeleted)
+    projectiles.erase(projectiles.begin()+index);
 }

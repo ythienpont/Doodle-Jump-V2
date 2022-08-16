@@ -81,10 +81,24 @@ Representation::Enemy::Enemy(const Vec2D& position) : View(position)
   setSize(sf::Vector2f(30,-30));
 }
 
+Representation::ShootingEnemy::ShootingEnemy(const Vec2D& position) : View(position)
+{
+  //applyTexture(TEMPPLATFORMTEXTUREFILE);
+  setFillColor(sf::Color::Red);
+  setSize(sf::Vector2f(40,-40));
+}
+
 Representation::PlayerBullet::PlayerBullet(const Vec2D& position) : View(position)
 {
   //applyTexture(TEMPPLATFORMTEXTUREFILE);
   setFillColor(sf::Color::Cyan);
+  setSize(sf::Vector2f(5,-20));
+}
+
+Representation::EnemyBullet::EnemyBullet(const Vec2D& position) : View(position)
+{
+  //applyTexture(TEMPPLATFORMTEXTUREFILE);
+  setFillColor(sf::Color::Red);
   setSize(sf::Vector2f(5,-20));
 }
 

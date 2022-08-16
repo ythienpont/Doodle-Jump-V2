@@ -47,8 +47,7 @@ bool Logic::Bonus::isDone() const
   return duration <= 0;
 }
 
-void Logic::Heart::update()
+void Logic::Heart::jumpOn()
 {
-  moveOutOfBounds();
-  notifyObservers();
+  moveOutOfBounds(); 
 }

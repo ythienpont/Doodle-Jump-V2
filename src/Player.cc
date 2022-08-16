@@ -30,7 +30,8 @@ void Logic::Player::update()
   if (hasBonus() and bonus->getVelocity() > 0)
   {
     setVelocity(Vec2D(getVelocity().x, bonus->getVelocity()));
-    bonus->decreaseDuration(Logic::Stopwatch::getInstance()->getElapsedTime()*1000);
+    //bonus->decreaseDuration(1*timePerFrame);
+    bonus->decreaseDuration(Stopwatch::getInstance()->getElapsedTime()*1000);
   }
 
   if (hasBonus() and bonus->isDone())
@@ -94,4 +95,10 @@ void Logic::Player::parseBonus()
 
   if (bonus->getVelocity() > 0)
     setVelocity(Vec2D(0, bonus->getVelocity()));
+}
+
+void Logic::Player::hit()
+{
+  if (!hasBonus() and getVelocity().y <= JUMP_HEIGHT)
+    addHP(-1); 
 }

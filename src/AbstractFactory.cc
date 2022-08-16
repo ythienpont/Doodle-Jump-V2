@@ -82,10 +82,28 @@ std::unique_ptr<Logic::Enemy> ConcreteFactory::createEnemy(const Vec2D& pos)
   return enemyModel;
 };
 
+std::unique_ptr<Logic::ShootingEnemy> ConcreteFactory::createShootingEnemy(const Vec2D& pos)
+{
+  std::unique_ptr<Logic::ShootingEnemy> enemyModel = std::make_unique<Logic::ShootingEnemy>(pos);
+  std::shared_ptr<Representation::ShootingEnemy> enemyView = std::make_shared<Representation::ShootingEnemy>(Logic::Camera::getInstance()->toPixelCoordinates(pos));
+  enemyModel->registerObserver(enemyView);
+
+  return enemyModel;
+};
+
 std::unique_ptr<Logic::PlayerBullet> ConcreteFactory::createPlayerBullet(const Vec2D& pos)
 {
   std::unique_ptr<Logic::PlayerBullet> bulletModel = std::make_unique<Logic::PlayerBullet>(pos);
   std::shared_ptr<Representation::PlayerBullet> bulletView = std::make_shared<Representation::PlayerBullet>(Logic::Camera::getInstance()->toPixelCoordinates(pos));
+  bulletModel->registerObserver(bulletView);
+
+  return bulletModel;
+};
+
+std::unique_ptr<Logic::EnemyBullet> ConcreteFactory::createEnemyBullet(const Vec2D& pos)
+{
+  std::unique_ptr<Logic::EnemyBullet> bulletModel = std::make_unique<Logic::EnemyBullet>(pos);
+  std::shared_ptr<Representation::EnemyBullet> bulletView = std::make_shared<Representation::EnemyBullet>(Logic::Camera::getInstance()->toPixelCoordinates(pos));
   bulletModel->registerObserver(bulletView);
 
   return bulletModel;

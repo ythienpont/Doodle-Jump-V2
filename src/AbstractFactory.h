@@ -24,7 +24,9 @@ public:
   virtual std::unique_ptr<Logic::TempPlatform> createTempPlatform(const Vec2D& pos)=0;
   virtual std::unique_ptr<Logic::BGTile> createTile(const Vec2D& pos)=0;
   virtual std::unique_ptr<Logic::Enemy> createEnemy(const Vec2D& pos)=0;
+  virtual std::unique_ptr<Logic::ShootingEnemy> createShootingEnemy(const Vec2D& pos)=0;
   virtual std::unique_ptr<Logic::PlayerBullet> createPlayerBullet(const Vec2D& pos)=0;
+  virtual std::unique_ptr<Logic::EnemyBullet> createEnemyBullet(const Vec2D& pos)=0;
   virtual std::shared_ptr<Logic::Spikes> createSpikes(const Vec2D& pos)=0;
   virtual std::shared_ptr<Logic::Spring> createSpring(const Vec2D& pos)=0;
   virtual std::shared_ptr<Logic::Heart> createHeart(const Vec2D& pos)=0;
@@ -43,7 +45,9 @@ public:
   std::unique_ptr<Logic::TempPlatform> createTempPlatform(const Vec2D& pos) override;
   std::unique_ptr<Logic::BGTile> createTile(const Vec2D& pos) override;
   std::unique_ptr<Logic::Enemy> createEnemy(const Vec2D& pos) override;
+  std::unique_ptr<Logic::ShootingEnemy> createShootingEnemy(const Vec2D& pos) override;
   std::unique_ptr<Logic::PlayerBullet> createPlayerBullet(const Vec2D& pos) override;
+  std::unique_ptr<Logic::EnemyBullet> createEnemyBullet(const Vec2D& pos) override;
   std::shared_ptr<Logic::Spikes> createSpikes(const Vec2D& pos) override;
   std::shared_ptr<Logic::Spring> createSpring(const Vec2D& pos) override;
   std::shared_ptr<Logic::Heart> createHeart(const Vec2D& pos) override;

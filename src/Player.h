@@ -32,6 +32,8 @@ namespace Logic
     void addBonus(std::shared_ptr<Bonus> theBonus);
     void removeBonus();
 
+    void hit() override;
+
     bool isShooting() const;
     void reset();
   };

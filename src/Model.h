@@ -41,7 +41,7 @@ namespace Logic
     void setHP(const int points);
     void addHP(const int points);
     void kill();
-    void hit();
+    virtual void hit();
     bool isDead() const;
   };
 

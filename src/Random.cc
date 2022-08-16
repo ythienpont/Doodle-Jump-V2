@@ -11,7 +11,7 @@ Logic::Random* Logic::Random::getInstance()
 
 int Logic::Random::getValue()
 {
-  unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count(); 
+  unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
   rng.seed(seed);
   return rng();
 }

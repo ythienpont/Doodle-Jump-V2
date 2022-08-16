@@ -19,4 +19,5 @@ void Logic::PlayerBullet::update()
 void Logic::EnemyBullet::update()
 {
   move(Vec2D(0,-15));
+  notifyObservers();
 }

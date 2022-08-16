@@ -37,6 +37,9 @@ namespace Logic
     int getTotalCredits() const;
     void destroyEntities();
     void destroyPlatforms();
+    void destroyBonuses();
+    void destroyEnemies();
+    void destroyProjectiles();
   public:
     World(std::shared_ptr<AbstractFactory> factory);
     void spawnEntities(std::shared_ptr<AbstractFactory> factory);

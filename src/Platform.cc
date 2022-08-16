@@ -3,7 +3,7 @@
 int getNumberInRange(const int range)
 {
   bool sign = Logic::Random::getInstance()->getValue()%2;
-  return sign*(-1)*(Logic::Random::getInstance()->getValue()%(range)+1);// I never want the number to be 0
+  return std::pow(-1,sign)*(Logic::Random::getInstance()->getValue()%(range)+1);// I never want the number to be 0
 }
 
 Logic::Platform::Platform(const Vec2D& startPos) : Model(startPos, PWIDTH, PHEIGHT), jumpedOn(false), credits(5) { }
@@ -31,7 +31,7 @@ void Logic::Platform::update() {
 
 void Logic::HTelePlatform::jumpOn()
 {
-  int newX = newX + getNumberInRange(HRANGE);
+  int newX = startPos.x + getNumberInRange(HRANGE);
   if (newX <= SCREENW/2)
   {
     newX = std::max(0,newX);
