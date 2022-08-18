@@ -3,13 +3,16 @@
 
 #include "Model.h"
 
+const double TILEWIDTH = 80;
+const double TILEHEIGHT = 160;
+
 namespace Logic
 {
   class BGTile : public Model
   {
   public:
     BGTile(const Vec2D& pos);
-    void update() override { }
+    void update() override;
   };
 }
 

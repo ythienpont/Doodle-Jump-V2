@@ -49,6 +49,11 @@ void Representation::Game::handlePlayerInput(sf::Keyboard::Key key, bool isPress
       break;
     case sf::Keyboard::W:
       world->setPlayerState(Shooting);
+      break;
+    case sf::Keyboard::Enter:
+      world = std::make_unique<Logic::World>(factory);
+      Logic::Camera::getInstance()->reset();
+      break;
   }
 }
 
@@ -80,7 +85,6 @@ void Representation::Game::update(const double& deltaTime)
 void Representation::Game::render()
 {
   window.clear(sf::Color::Black);
-  //drawBackground();
 
   std::vector<std::shared_ptr<Representation::View> > sprites = world->getSprites();
 
@@ -147,6 +151,10 @@ void Representation::Game::drawGameOver()
   text.setString("Game Over!");
   text.setFillColor(sf::Color::White);
   text.setPosition(sf::Vector2f(20, (double)SCREENH/2-100));
+  window.draw(text);
+  text.setCharacterSize(30);
+  text.setString("Press <Enter> to play again");
+  text.setPosition(sf::Vector2f(10, (double)SCREENH/2));
   window.draw(text);
 }
 

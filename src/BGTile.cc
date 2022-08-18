@@ -1,3 +1,8 @@
 #include "BGTile.h"
 
-Logic::BGTile::BGTile(const Vec2D& pos) : Logic::Model(pos, 0, 0, 0) { }
+Logic::BGTile::BGTile(const Vec2D& pos) : Logic::Model(pos, TILEWIDTH, TILEHEIGHT, 0) { }
+
+void Logic::BGTile::update()
+{
+  notifyObservers();
+}

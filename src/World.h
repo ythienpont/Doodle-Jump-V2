@@ -8,6 +8,7 @@
 #include "Bonus.h"
 #include "Enemy.h"
 #include "Projectile.h"
+#include "BGTile.h"
 #include "AbstractFactory.h"
 #include "Score.h"
 

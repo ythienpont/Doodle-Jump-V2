@@ -34,6 +34,7 @@ public:
   virtual std::shared_ptr<Logic::Jetpack> createJetpack(const Vec2D& pos) const=0;
   virtual std::unique_ptr<Logic::Effect> createEnemyHitEffect() const=0;
   virtual std::unique_ptr<Logic::Effect> createFriendlyHitEffect() const=0;
+  virtual std::unique_ptr<Logic::BGTile> createBGTile(const Vec2D& pos) const=0;
 };
 
 class ConcreteFactory : public AbstractFactory
@@ -57,6 +58,7 @@ public:
   std::shared_ptr<Logic::Jetpack> createJetpack(const Vec2D& pos) const override;
   std::unique_ptr<Logic::Effect> createEnemyHitEffect() const override;
   std::unique_ptr<Logic::Effect> createFriendlyHitEffect() const override;
+  std::unique_ptr<Logic::BGTile> createBGTile(const Vec2D& pos) const override;
 };
 
 #endif //ABSTRACTFACTORY_H

@@ -109,6 +109,15 @@ std::unique_ptr<Logic::EnemyBullet> ConcreteFactory::createEnemyBullet(const Vec
   return bulletModel;
 };
 
+std::unique_ptr<Logic::BGTile> ConcreteFactory::createBGTile(const Vec2D& pos) const
+{
+  std::unique_ptr<Logic::BGTile> tileModel = std::make_unique<Logic::BGTile>(pos);
+  std::shared_ptr<Representation::BGTile> tileView = std::make_shared<Representation::BGTile>(Logic::Camera::getInstance()->toPixelCoordinates(pos));
+  tileModel->registerObserver(tileView);
+
+  return tileModel;
+};
+
 std::shared_ptr<Logic::Spikes> ConcreteFactory::createSpikes(const Vec2D& pos) const
 {
   std::shared_ptr<Logic::Spikes> bonusModel = std::make_shared<Logic::Spikes>(pos);

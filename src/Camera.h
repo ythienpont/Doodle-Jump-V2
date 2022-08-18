@@ -24,6 +24,7 @@ namespace Logic
     bool isOutOfLowerBounds(const Vec2D& pos) const;
 
     int updateBaseHeight(const Vec2D& playerPos, const double& playerVel);
+    void reset();
   };
 }
 #endif //CAMERA_H

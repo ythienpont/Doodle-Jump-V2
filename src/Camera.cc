@@ -34,3 +34,8 @@ bool Logic::Camera::isOutOfUpperBounds(const Vec2D& pos) const
 {
   return pos.y >= baseHeight+SCREENH;
 }
+
+void Logic::Camera::reset()
+{
+  baseHeight = 0;
+}

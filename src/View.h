@@ -75,7 +75,8 @@ namespace Representation
 
   class BGTile : public View
   {
-
+  public:
+    BGTile(const Vec2D& position);
   };
 
   class Spring : public View

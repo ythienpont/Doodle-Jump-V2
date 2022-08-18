@@ -1,10 +1,23 @@
 #include "World.h"
 #include <iostream>
 
+int xTileAmt = 0;
+int yTileAmt = 0;
+
 Logic::World::World(std::shared_ptr<AbstractFactory> factory) : difficulty(STARTINGDIFF)
 {
   player = factory->createPlayer(Vec2D(240,100));
   platforms.push_back(factory->createPlatform(Vec2D(240,60)));
+  xTileAmt = std::round(SCREENW/TILEWIDTH)+1;
+  yTileAmt = std::round(SCREENH/TILEHEIGHT)+1;
+
+  for (int x = 0; x < xTileAmt; ++x)
+  {
+    for (int y = 0; y < yTileAmt; ++y)
+    {
+      tiles.push_back(factory->createBGTile(Vec2D(x*TILEWIDTH,y*TILEHEIGHT)));
+    }
+  }
 }
 
 void Logic::World::checkPlayerCollisions(std::shared_ptr<AbstractFactory> factory)
@@ -204,10 +217,12 @@ void Logic::World::spawnPlatforms(std::shared_ptr<AbstractFactory> factory)
   }
 }
 
-
 std::vector<std::shared_ptr<Representation::View> > Logic::World::getSprites() const
 {
   std::vector<std::shared_ptr<Representation::View> > sprites;
+
+  for (auto& tile : tiles)
+    sprites.push_back(tile->view);
 
   for (auto& platform : platforms)
     sprites.push_back(platform->view);
@@ -217,9 +232,6 @@ std::vector<std::shared_ptr<Representation::View> > Logic::World::getSprites() c
 
   for (auto& enemy : enemies)
     sprites.push_back(enemy->view);
-
-  for (auto& tile : tiles)
-    sprites.push_back(tile->view);
 
   for (auto& projectile : projectiles)
     sprites.push_back(projectile->view);
@@ -390,5 +402,6 @@ int Logic::World::getPlayerHP() const
 
 bool Logic::World::isGameOver() const
 {
-  return player->isDead();
+  //return player->isDead();
+  return Camera::getInstance()->isOutOfLowerBounds(player->getPosition());
 }

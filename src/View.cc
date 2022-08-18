@@ -126,6 +126,15 @@ Representation::Jetpack::Jetpack(const Vec2D& position) : View(position)
   setSize(sf::Vector2f(16,-40));
 }
 
+Representation::BGTile::BGTile(const Vec2D& position) : View(position)
+{
+  setOutlineColor(sf::Color(255,255,255,128));
+  setOutlineThickness(1);
+  //setFillColor(sf::Color::Black);
+  setFillColor(sf::Color(0,0,0,0));
+  setSize(sf::Vector2f(80,-160));
+}
+
 Representation::Effect::Effect(const bool friendly) : View(Vec2D(0,0))
 {
   if (friendly)
