@@ -1,16 +1,10 @@
 #ifndef VIEW_H
-#define VIEW_H 
+#define VIEW_H
 
 #include "Observer.h"
 #include "Entity.h"
 #include <SFML/Graphics.hpp>
-//#include "Enemy.h"
-
-const std::string PLAYERTEXTUREFILE = "images/player.png";
-const std::string PLATFORMTEXTUREFILE = "images/static_platform.png";
-const std::string HPLATFORMTEXTUREFILE = "images/horizontal_platform.png";
-const std::string VPLATFORMTEXTUREFILE = "images/vertical_platform.png";
-const std::string TEMPPLATFORMTEXTUREFILE = "images/temporary_platform.png";
+#include "Camera.h"
 
 namespace Representation
 {
@@ -65,7 +59,7 @@ namespace Representation
   public:
     VTelePlatform(const Vec2D& position);
   };
-  
+
   class Enemy : public View
   {
   public:
@@ -79,7 +73,7 @@ namespace Representation
   };
 
 
-  class BGTile : public View 
+  class BGTile : public View
   {
 
   };
@@ -118,6 +112,12 @@ namespace Representation
   {
   public:
     EnemyBullet(const Vec2D& position);
+  };
+
+  class Effect : public View
+  {
+  public:
+    Effect(const bool friendly);
   };
 }
 

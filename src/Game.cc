@@ -74,8 +74,7 @@ void Representation::Game::processEvents()
 
 void Representation::Game::update(const double& deltaTime)
 {
-  world->spawnEntities(factory);
-  world->update();
+  world->update(factory);
 }
 
 void Representation::Game::render()
@@ -89,9 +88,67 @@ void Representation::Game::render()
   {
     window.draw(*sprite);
   }
+
+  drawScore();
+  drawPlayerHP();
+  if (world->isGameOver())
+    drawGameOver();
   window.display();
 }
 
+void Representation::Game::drawScore()
+{
+  sf::Font font;
+
+  // Load it from a file
+  if (!font.loadFromFile("upheavtt.ttf"))
+  {
+    std::cerr << "Couldn't load upheavtt.ttf\n";
+  }
+
+  // Create a text which uses our font
+  sf::Text text;
+  text.setFont(font);
+  text.setCharacterSize(30);
+  text.setString(std::to_string(world->getScore()));
+  text.setFillColor(sf::Color::White);
+  text.setPosition(sf::Vector2f(10,2));
+  window.draw(text);
+}
+
+void Representation::Game::drawPlayerHP()
+{
+  sf::RectangleShape hp;
+  hp.setFillColor(sf::Color::Green);
+  hp.setSize(sf::Vector2f(20,20));
+  hp.setPosition(sf::Vector2f(SCREENW-10,30));
+
+  for (int i = 0; i < world->getPlayerHP(); ++i)
+  {
+    hp.setPosition(sf::Vector2f(SCREENW-(50*(1+i)),15));
+    window.draw(hp);
+  }
+}
+
+void Representation::Game::drawGameOver()
+{
+  sf::Font font;
+
+  // Load it from a file
+  if (!font.loadFromFile("upheavtt.ttf"))
+  {
+    std::cerr << "Couldn't load upheavtt.ttf\n";
+  }
+
+  // Create a text which uses our font
+  sf::Text text;
+  text.setFont(font);
+  text.setCharacterSize(80);
+  text.setString("Game Over!");
+  text.setFillColor(sf::Color::White);
+  text.setPosition(sf::Vector2f(20, (double)SCREENH/2-100));
+  window.draw(text);
+}
 
 void Representation::Game::drawBackground()
 {

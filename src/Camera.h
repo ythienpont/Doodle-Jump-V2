@@ -2,13 +2,14 @@
 #define CAMERA_H
 
 #include "Vec2D.h"
+#include <math.h>
 
 const int SCREENW = 480;
 //const int SCREENH = 700;
 const int SCREENH = 900;
 namespace Logic
 {
-  class Camera 
+  class Camera
   {
   private:
     static Camera* instance;
@@ -22,7 +23,7 @@ namespace Logic
     bool isOutOfUpperBounds(const Vec2D& pos) const;
     bool isOutOfLowerBounds(const Vec2D& pos) const;
 
-    void updateBaseHeight(const Vec2D& playerPos, const double& playerVel);
+    int updateBaseHeight(const Vec2D& playerPos, const double& playerVel);
   };
 }
 #endif //CAMERA_H

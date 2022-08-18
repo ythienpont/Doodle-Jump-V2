@@ -6,26 +6,26 @@ int getNumberInRange(const int range)
   return std::pow(-1,sign)*(Logic::Random::getInstance()->getValue()%(range)+1);// I never want the number to be 0
 }
 
-Logic::Platform::Platform(const Vec2D& startPos) : Model(startPos, PWIDTH, PHEIGHT), jumpedOn(false), credits(5) { }
+Logic::Platform::Platform(const Vec2D& startPos) : Model(startPos, PWIDTH, PHEIGHT, PLATDELTA), jumpedOn(false), credits(5) { }
 
-Logic::Platform::Platform(const Vec2D& startPos, const int creds) : Model(startPos, PWIDTH, PHEIGHT), jumpedOn(false), credits(creds) { }
+Logic::Platform::Platform(const Vec2D& startPos, const int creds, const int scoreD) : Model(startPos, PWIDTH, PHEIGHT, scoreD), jumpedOn(false), credits(creds) { }
 
 int Logic::Platform::getCredits() const
 {
   return credits;
 }
 
-Logic::HPlatform::HPlatform(const Vec2D& pos) : Platform(pos, 2), Moving(Vec2D(1,0)) { }
+Logic::HPlatform::HPlatform(const Vec2D& pos) : Platform(pos, 2, HPLATDELTA), Moving(Vec2D(1,0)) { }
 
-Logic::VPlatform::VPlatform(const Vec2D& pos) : Platform(pos, 2), Moving(Vec2D(0,1)), startPos(pos) { }
+Logic::VPlatform::VPlatform(const Vec2D& pos) : Platform(pos, 2, VPLATDELTA), Moving(Vec2D(0,1)), startPos(pos) { }
 
-Logic::TempPlatform::TempPlatform(const Vec2D& pos) : Platform(pos, 1) { }
+Logic::TempPlatform::TempPlatform(const Vec2D& pos) : Platform(pos, 1, TELEDELTA) { }
 
-Logic::HTelePlatform::HTelePlatform(const Vec2D& pos) : Platform(pos, 2), startPos(pos) { }
+Logic::HTelePlatform::HTelePlatform(const Vec2D& pos) : Platform(pos, 2, TELEDELTA), startPos(pos) { }
 
-Logic::VTelePlatform::VTelePlatform(const Vec2D& pos) : Platform(pos, 2), startPos(pos) { }
+Logic::VTelePlatform::VTelePlatform(const Vec2D& pos) : Platform(pos, 2, VPLATDELTA), startPos(pos) { }
 
-void Logic::Platform::update() { 
+void Logic::Platform::update() {
   notifyObservers();
 }
 
@@ -53,11 +53,11 @@ void Logic::VPlatform::update()
 {
   if (getPosition().y >= startPos.y + VRANGE)
   {
-    setVelocity(Vec2D(0,-1)); 
+    setVelocity(Vec2D(0,-1));
   }
   else if (getPosition().y <= startPos.y - VRANGE)
   {
-    setVelocity(Vec2D(0,1)); 
+    setVelocity(Vec2D(0,1));
   }
 
   move(getVelocity());
@@ -73,11 +73,11 @@ void Logic::HPlatform::update()
 {
   if (getPosition().x <= 0)
   {
-    setVelocity(Vec2D(1,0)); 
+    setVelocity(Vec2D(1,0));
   }
   else if (getPosition().x >= SCREENW-PWIDTH)
   {
-    setVelocity(Vec2D(-1,0)); 
+    setVelocity(Vec2D(-1,0));
   }
 
   move(getVelocity());

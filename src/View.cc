@@ -15,7 +15,7 @@ void Representation::View::applyTexture(const std::string& texturePath)
   /*
   sf::Texture texture;
   texture.loadFromFile(texturePath);
-  setTexture(texture); 
+  setTexture(texture);
   */
 }
 
@@ -124,4 +124,17 @@ Representation::Jetpack::Jetpack(const Vec2D& position) : View(position)
 {
   setFillColor(sf::Color(190, 190, 190));
   setSize(sf::Vector2f(16,-40));
+}
+
+Representation::Effect::Effect(const bool friendly) : View(Vec2D(0,0))
+{
+  if (friendly)
+  {
+    setFillColor(sf::Color::Red);
+  }
+  else
+  {
+    setFillColor(sf::Color::White);
+  }
+  setSize(sf::Vector2f(SCREENW,SCREENH));
 }

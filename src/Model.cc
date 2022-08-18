@@ -1,11 +1,11 @@
 #include "Model.h"
 
-Logic::Model::Model(const Vec2D& startPos, const double& w, const double& h) : pos(startPos), col(Collider(w, h))
+Logic::Model::Model(const Vec2D& startPos, const double& w, const double& h, const int scoreD) : pos(startPos), col(Collider(w, h)), scoreDelta(scoreD)
 {
 
 }
 
-Logic::Model::Model(const double& w, const double& h) : Model(Vec2D(0,0),w,h)
+Logic::Model::Model(const double& w, const double& h, const int scoreD) : Model(Vec2D(0,0),w,h, scoreD)
 {
 
 }
@@ -53,7 +53,7 @@ void Logic::Moving::setVelocity(const Vec2D& vel)
   velocity = vel;
 }
 
-Vec2D Logic::Moving::getVelocity() const 
+Vec2D Logic::Moving::getVelocity() const
 {
   return velocity;
 }
@@ -65,7 +65,7 @@ void Logic::Moving::addVelocity(const Vec2D& vel)
 
 void Logic::Model::registerObserver(std::shared_ptr<Representation::View> observer)
 {
-  view = observer; 
+  view = observer;
 }
 
 void Logic::Model::removeObserver(std::shared_ptr<Representation::View> observer)
@@ -130,4 +130,9 @@ void Logic::Jumpable::jumpOn()
 void Logic::Living::hit()
 {
   hp -= 1;
+}
+
+int Logic::Model::getScoreDelta() const
+{
+  return scoreDelta;
 }

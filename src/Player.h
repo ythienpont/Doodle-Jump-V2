@@ -20,7 +20,7 @@ namespace Logic
     PlayerState state;
     std::shared_ptr<Bonus> bonus;
     void parseBonus();
-  public: 
+  public:
     Player(const Vec2D& pos);
     void jump();
     void update() override;

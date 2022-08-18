@@ -3,6 +3,8 @@
 
 #include "Model.h"
 
+const int PROJECTILE_DELTA = 100;
+
 namespace Logic
 {
   class Projectile : public Model, Moving

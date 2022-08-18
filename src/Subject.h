@@ -4,7 +4,7 @@
 #include <memory>
 #include "View.h"
 
-class Subject 
+class Subject
 {
 public:
   virtual void registerObserver(std::shared_ptr<Representation::View> observer) = 0;

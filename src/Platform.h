@@ -8,6 +8,10 @@ const int VRANGE = 100;
 const int HRANGE = 200;
 const double PWIDTH = 64;
 const double PHEIGHT = 16;
+const int PLATDELTA = -500;
+const int HPLATDELTA = -300;
+const int VPLATDELTA = -400;
+const int TELEDELTA = 0; // Score delta for TempPlatform and HTelePlatform
 
 namespace Logic
 {
@@ -20,7 +24,7 @@ namespace Logic
     int getCredits() const;
     virtual void update() override;
   protected:
-    Platform(const Vec2D& pos, const int creds);
+    Platform(const Vec2D& pos, const int creds, const int scoreD);
   };
 
   class HPlatform : public Platform, public Moving
@@ -38,7 +42,7 @@ namespace Logic
     void update() override;
   };
 
-  class TempPlatform : public Platform 
+  class TempPlatform : public Platform
   {
   public:
     TempPlatform(const Vec2D& pos);

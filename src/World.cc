@@ -7,15 +7,21 @@ Logic::World::World(std::shared_ptr<AbstractFactory> factory) : difficulty(START
   platforms.push_back(factory->createPlatform(Vec2D(240,60)));
 }
 
-void Logic::World::checkPlayerCollisions()
+void Logic::World::checkPlayerCollisions(std::shared_ptr<AbstractFactory> factory)
 {
   // Loop over enemies, doesn't matter if going down
   for (auto& enemy : enemies)
   {
     if (player->collidesWith(*enemy))
     {
+      int health = player->getHP();
       player->hit();
-      enemy->kill();
+      if (player->getHP() == health-1)
+      {
+        effects.push_back(factory->createFriendlyHitEffect());
+        enemy->kill();
+        score.addDelta(enemy->getScoreDelta());
+      }
     }
   }
   if (player->goingDown())
@@ -27,12 +33,27 @@ void Logic::World::checkPlayerCollisions()
       {
         player->addBonus(bonus);
         bonus->jumpOn();
+
+        score.addDelta(bonus->getScoreDelta());
+
+        if (bonus->getScoreDelta() < 0)
+        {
+          effects.push_back(factory->createFriendlyHitEffect());
+        }
+        else
+        {
+          effects.push_back(factory->createEnemyHitEffect());
+        }
       }
     }
     for (auto& platform : platforms)
     {
       if (player->collidesWith(*platform))
       {
+        if (platform->hasBeenJumpedOn())
+        {
+          score.addDelta(platform->getScoreDelta());
+        }
         player->jump();
         platform->jumpOn();
       }
@@ -77,6 +98,7 @@ void Logic::World::spawnEntities(std::shared_ptr<AbstractFactory> factory)
     if (enemy->isShooting())
     {
       projectiles.push_back(factory->createEnemyBullet(enemy->getPosition()+Vec2D(20,0)));
+      enemy->reset();
     }
   }
 }
@@ -91,7 +113,7 @@ void Logic::World::spawnEnemy(std::shared_ptr<AbstractFactory> factory)
   Vec2D randomPos(Random::getInstance()->getValue() % (int) (SCREENW-PWIDTH),
       getHighestPlatformPosition().y+PLATFORM_OFFSET);
 
-  platforms.push_back(factory->createPlatform(randomPos)); 
+  platforms.push_back(factory->createPlatform(randomPos));
 
   randomPos = Vec2D(Random::getInstance()->getValue() % (int) (SCREENW-PWIDTH), randomPos.y-(Random::getInstance()->getValue()% (int) PLATFORM_OFFSET));
 
@@ -114,7 +136,7 @@ void Logic::World::spawnBonus(std::shared_ptr<AbstractFactory> factory)
   Vec2D randomPos(Random::getInstance()->getValue() % (int) (SCREENW-PWIDTH),
       getHighestPlatformPosition().y+PLATFORM_OFFSET);
 
-  platforms.push_back(factory->createPlatform(randomPos)); 
+  platforms.push_back(factory->createPlatform(randomPos));
 
   randomPos = Vec2D(Random::getInstance()->getValue() % (int) (SCREENW-PWIDTH), randomPos.y-(Random::getInstance()->getValue()% (int) PLATFORM_OFFSET));
 
@@ -174,6 +196,7 @@ void Logic::World::spawnPlatforms(std::shared_ptr<AbstractFactory> factory)
   while (!Camera::getInstance()->isOutOfUpperBounds(getHighestPlatformPosition()))
   {
     int platformType = Random::getInstance()->getValue() % difficulty;
+
     Vec2D randomPos(Random::getInstance()->getValue() % (int) (SCREENW-PWIDTH),
         getHighestPlatformPosition().y+PLATFORM_OFFSET);
 
@@ -203,10 +226,13 @@ std::vector<std::shared_ptr<Representation::View> > Logic::World::getSprites() c
 
   sprites.push_back(player->view);
 
+  for (auto& effect : effects)
+    sprites.push_back(effect->getView());
+
   return sprites;
 }
 
-void Logic::World::checkProjectileCollisions()
+void Logic::World::checkProjectileCollisions(std::shared_ptr<AbstractFactory> factory)
 {
   for (auto& projectile : projectiles)
   {
@@ -215,23 +241,35 @@ void Logic::World::checkProjectileCollisions()
       for (auto& enemy : enemies)
       {
         if (projectile->collidesWith(*enemy))
+        {
+          score.addDelta(-enemy->getScoreDelta());
+          effects.push_back(factory->createEnemyHitEffect());
           enemy->hit();
+          projectile->moveOutOfBounds();
+        }
       }
     }
     else
     {
       if (projectile->collidesWith(*player))
+      {
+        effects.push_back(factory->createFriendlyHitEffect());
         player->hit();
+        projectile->moveOutOfBounds();
+      }
     }
   }
 }
 
-void Logic::World::update()
+void Logic::World::update(std::shared_ptr<AbstractFactory> factory)
 {
-  checkPlayerCollisions();
-  checkProjectileCollisions();
   destroyEntities();
-
+  if (!player->isDead())
+  {
+    spawnEntities(factory);
+    checkPlayerCollisions(factory);
+    checkProjectileCollisions(factory);
+  }
   player->update();
 
 
@@ -250,8 +288,8 @@ void Logic::World::update()
   for (auto& projectile : projectiles)
     projectile->update();
 
-  Camera::getInstance()->updateBaseHeight(
-      player->getPosition(), player->getVelocity().y);
+  score.addDelta(Camera::getInstance()->updateBaseHeight(
+      player->getPosition(), player->getVelocity().y));
 }
 
 void Logic::World::setPlayerState(const PlayerState& state)
@@ -265,6 +303,12 @@ void Logic::World::destroyEntities()
   destroyBonuses();
   destroyEnemies();
   destroyProjectiles();
+  clearEffects();
+}
+
+void Logic::World::clearEffects()
+{
+  effects.clear();
 }
 
 void Logic::World::destroyPlatforms()
@@ -318,7 +362,8 @@ void Logic::World::destroyProjectiles()
   for (int i = 0; i < projectiles.size(); ++i)
   { if (projectiles[i]->isFriendly())
     {
-      if (Camera::getInstance()->isOutOfUpperBounds(projectiles[i]->getPosition())) toBeDeleted.push_back(i);
+      if (Camera::getInstance()->isOutOfUpperBounds(projectiles[i]->getPosition()) or Camera::getInstance()->isOutOfLowerBounds(projectiles[i]->getPosition()))
+        toBeDeleted.push_back(i);
     }
     else
     {
@@ -331,4 +376,19 @@ void Logic::World::destroyProjectiles()
 
   for (const auto& index : toBeDeleted)
     projectiles.erase(projectiles.begin()+index);
+}
+
+int Logic::World::getScore() const
+{
+  return score.getAmount();
+}
+
+int Logic::World::getPlayerHP() const
+{
+  return player->getHP();
+}
+
+bool Logic::World::isGameOver() const
+{
+  return player->isDead();
 }

@@ -9,9 +9,9 @@
 
 namespace Representation
 {
-  class Game 
+  class Game
   {
-  public: 
+  public:
     Game();
     void run();
   private:
@@ -20,6 +20,9 @@ namespace Representation
     void render();
     void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
     void drawBackground();
+    void drawScore();
+    void drawPlayerHP();
+    void drawGameOver();
 
     sf::RenderWindow window;
 

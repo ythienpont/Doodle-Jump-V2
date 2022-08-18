@@ -47,30 +47,32 @@ namespace Logic
 
   class Model : public Subject, public Entity
   {
+    int scoreDelta;
   public:
     Vec2D pos;
     Collider col;
     std::shared_ptr<Representation::View> view;
 
-    Model(const double& w, const double& h);
-    Model(const Vec2D& startPos, const double& w, const double& h);
+    Model(const double& w, const double& h, const int scoreD);
+    Model(const Vec2D& startPos, const double& w, const double& h, const int scoreD);
 
     virtual void update()=0;
 
     void setPosition(const double& x, const double& y);
     void setPosition(const Vec2D& newPos);
     Vec2D getPosition() const;
-    
+
+    int getScoreDelta() const;
+
     void move(const Vec2D& velocity);
 
     bool collidesWith(const Model& e);
+    void moveOutOfBounds();
 
     // Subject code
     void registerObserver(std::shared_ptr<Representation::View> observer) override;
     void removeObserver(std::shared_ptr<Representation::View> observer) override;
     void notifyObservers() override;
-  protected:
-    void moveOutOfBounds();
   };
 }
 

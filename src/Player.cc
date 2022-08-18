@@ -1,16 +1,15 @@
-#include "Player.h" 
+#include "Player.h"
 #include <iostream>
 
-Logic::Player::Player(const Vec2D& pos) : Logic::Model(pos, PLAYER_WIDTH, PLAYER_HEIGHT/4), Logic::Moving(Vec2D(0,0)), Living(PLAYER_HP), bonus(nullptr) { }
+Logic::Player::Player(const Vec2D& pos) : Logic::Model(pos, PLAYER_WIDTH, PLAYER_HEIGHT/4, 0), Logic::Moving(Vec2D(0,0)), Living(PLAYER_HP), bonus(nullptr) { }
 
-void Logic::Player::jump() 
+void Logic::Player::jump()
 {
     setVelocity(Vec2D(0, JUMP_HEIGHT));
 }
 
 void Logic::Player::update()
 {
-  if (isDead()) moveOutOfBounds();
   addVelocity(Vec2D(0, -GRAVITY));
   switch (state)
   {
@@ -26,12 +25,11 @@ void Logic::Player::update()
       setVelocity(Vec2D(0, getVelocity().y));
       break;
   }
-  
+
   if (hasBonus() and bonus->getVelocity() > 0)
   {
     setVelocity(Vec2D(getVelocity().x, bonus->getVelocity()));
-    //bonus->decreaseDuration(1*timePerFrame);
-    bonus->decreaseDuration(Stopwatch::getInstance()->getElapsedTime()*1000);
+    bonus->decreaseDistance(getVelocity().y);
   }
 
   if (hasBonus() and bonus->isDone())
@@ -44,6 +42,9 @@ void Logic::Player::update()
 
   if (pos.x > SCREENW+PLAYER_WIDTH)
     pos.x = 0;
+
+  if (Camera::getInstance()->isOutOfLowerBounds(getPosition()))
+    kill();
   notifyObservers();
 }
 
@@ -75,7 +76,7 @@ bool Logic::Player::hasBonus() const
 
 void Logic::Player::addBonus(std::shared_ptr<Bonus> theBonus)
 {
-  bonus = theBonus; 
+  bonus = theBonus;
   parseBonus();
 }
 
@@ -86,7 +87,7 @@ void Logic::Player::removeBonus()
 
 void Logic::Player::parseBonus()
 {
-  if (bonus->getDuration() == 0)
+  if (bonus->getDistance() == 0)
   {
     addHP(bonus->getHealth());
     if (bonus->getJumpMultiplier() > 0)
@@ -100,5 +101,5 @@ void Logic::Player::parseBonus()
 void Logic::Player::hit()
 {
   if (!hasBonus() and getVelocity().y <= JUMP_HEIGHT)
-    addHP(-1); 
+    addHP(-1);
 }
