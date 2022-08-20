@@ -7,7 +7,7 @@ const double timePerFrame = (double) 1/60;
 
 namespace Logic
 {
-  class Stopwatch 
+  class Stopwatch
   {
   private:
     static Stopwatch* instance;

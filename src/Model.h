@@ -53,9 +53,7 @@ namespace Logic
     Collider col;
     std::shared_ptr<Representation::View> view;
 
-    Model(const double& w, const double& h, const int scoreD);
-    Model(const Vec2D& startPos, const double& w, const double& h, const int scoreD);
-
+    ~Model();
     virtual void update()=0;
 
     void setPosition(const double& x, const double& y);
@@ -72,7 +70,10 @@ namespace Logic
     // Subject code
     void registerObserver(std::shared_ptr<Representation::View> observer) override;
     void removeObserver(std::shared_ptr<Representation::View> observer) override;
+  protected:
     void notifyObservers() override;
+    Model(const double& w, const double& h, const int scoreD);
+    Model(const Vec2D& startPos, const double& w, const double& h, const int scoreD);
   };
 }
 

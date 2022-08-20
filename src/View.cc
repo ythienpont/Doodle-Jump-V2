@@ -128,7 +128,7 @@ Representation::Jetpack::Jetpack(const Vec2D& position) : View(position)
 
 Representation::BGTile::BGTile(const Vec2D& position) : View(position)
 {
-  setOutlineColor(sf::Color(255,255,255,128));
+  setOutlineColor(sf::Color(255,255,255,64));
   setOutlineThickness(1);
   //setFillColor(sf::Color::Black);
   setFillColor(sf::Color(0,0,0,0));

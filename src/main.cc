@@ -16,6 +16,4 @@ int main( int argc, char* argv[])
   {
     std::cerr << "\n" << e.what() << std::endl;
   }
-
-  // Delete singleton insances
 }

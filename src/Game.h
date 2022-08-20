@@ -13,6 +13,7 @@ namespace Representation
   {
   public:
     Game();
+    ~Game();
     void run();
   private:
     void processEvents();

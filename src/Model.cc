@@ -136,3 +136,8 @@ int Logic::Model::getScoreDelta() const
 {
   return scoreDelta;
 }
+
+Logic::Model::~Model()
+{
+  view = nullptr;
+}

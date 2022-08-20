@@ -11,13 +11,24 @@ Logic::World::World(std::shared_ptr<AbstractFactory> factory) : difficulty(START
   xTileAmt = std::round(SCREENW/TILEWIDTH)+1;
   yTileAmt = std::round(SCREENH/TILEHEIGHT)+1;
 
-  for (int x = 0; x < xTileAmt; ++x)
+  for (int y = 0; y < xTileAmt; ++y)
   {
-    for (int y = 0; y < yTileAmt; ++y)
+    for (int x = 0; x < yTileAmt; ++x)
     {
       tiles.push_back(factory->createBGTile(Vec2D(x*TILEWIDTH,y*TILEHEIGHT)));
     }
   }
+}
+
+Logic::World::~World()
+{
+  player = nullptr;
+  enemies.clear();
+  bonuses.clear();
+  platforms.clear();
+  tiles.clear();
+  projectiles.clear();
+  effects.clear();
 }
 
 void Logic::World::checkPlayerCollisions(std::shared_ptr<AbstractFactory> factory)
@@ -35,6 +46,8 @@ void Logic::World::checkPlayerCollisions(std::shared_ptr<AbstractFactory> factor
         enemy->kill();
         score.addDelta(enemy->getScoreDelta());
       }
+
+      return; // Only one collision each loop
     }
   }
   if (player->goingDown())
@@ -57,6 +70,8 @@ void Logic::World::checkPlayerCollisions(std::shared_ptr<AbstractFactory> factor
         {
           effects.push_back(factory->createEnemyHitEffect());
         }
+
+        return; // Only one collision each loop
       }
     }
     for (auto& platform : platforms)
@@ -69,6 +84,8 @@ void Logic::World::checkPlayerCollisions(std::shared_ptr<AbstractFactory> factor
         }
         player->jump();
         platform->jumpOn();
+
+        return; // Only one collision each loop
       }
     }
   }
@@ -282,8 +299,10 @@ void Logic::World::update(std::shared_ptr<AbstractFactory> factory)
     checkPlayerCollisions(factory);
     checkProjectileCollisions(factory);
   }
+
   player->update();
 
+  difficulty = std::max(14,STARTINGDIFF - ((int) player->getPosition().y / 10000));
 
   for (auto& platform : platforms)
     platform->update();
@@ -294,8 +313,7 @@ void Logic::World::update(std::shared_ptr<AbstractFactory> factory)
   for (auto& bonus : bonuses)
     bonus->update();
 
-  for (auto& tile : tiles)
-    tile->update();
+  updateTiles();
 
   for (auto& projectile : projectiles)
     projectile->update();
@@ -404,4 +422,32 @@ bool Logic::World::isGameOver() const
 {
   //return player->isDead();
   return Camera::getInstance()->isOutOfLowerBounds(player->getPosition());
+}
+
+double Logic::World::getHighestTileY() const
+{
+  double highest = 0;
+
+  for (int i = 0; i < yTileAmt; ++i)
+    if (tiles[xTileAmt*i]->getPosition().y > highest) highest = tiles[xTileAmt*i]->getPosition().y;
+
+  return highest;
+}
+
+void Logic::World::updateTiles()
+{
+  for (int i = 0; i < yTileAmt; ++i)
+  {
+    if (Camera::getInstance()->isOutOfLowerBounds(tiles[xTileAmt*i]->getPosition(), TILEHEIGHT))
+    {
+      double highestTileY = getHighestTileY();
+      for (int j = 0; j < xTileAmt; ++j)
+      {
+        tiles[i*yTileAmt+j]->setPosition(tiles[i*yTileAmt+j]->getPosition().x,highestTileY+TILEHEIGHT);
+      }
+    }
+  }
+
+  for (auto& tile : tiles)
+    tile->update();
 }

@@ -7,6 +7,12 @@ Representation::Game::Game() : window(sf::VideoMode(SCREENW,SCREENH), "Doodle Ju
   world = std::make_unique<Logic::World>(factory);
 }
 
+Representation::Game::~Game()
+{
+  world = nullptr;
+  factory = nullptr;
+}
+
 void Representation::Game::run()
 {
   double timeSinceLastUpdate = 0;
@@ -150,11 +156,11 @@ void Representation::Game::drawGameOver()
   text.setCharacterSize(80);
   text.setString("Game Over!");
   text.setFillColor(sf::Color::White);
-  text.setPosition(sf::Vector2f(20, (double)SCREENH/2-100));
+  text.setPosition(sf::Vector2f(17, (double)SCREENH/2-100));
   window.draw(text);
   text.setCharacterSize(30);
   text.setString("Press <Enter> to play again");
-  text.setPosition(sf::Vector2f(10, (double)SCREENH/2));
+  text.setPosition(sf::Vector2f(5, (double)SCREENH/2));
   window.draw(text);
 }
 

@@ -46,8 +46,11 @@ namespace Logic
     void destroyEnemies();
     void destroyProjectiles();
     void clearEffects();
+    void updateTiles();
+    double getHighestTileY() const;
   public:
     World(std::shared_ptr<AbstractFactory> factory);
+    ~World();
     void update(std::shared_ptr<AbstractFactory> factory);
     std::vector<std::shared_ptr<Representation::View> > getSprites() const;
     void setPlayerState(const PlayerState& state);

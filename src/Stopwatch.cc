@@ -1,4 +1,5 @@
 #include "Stopwatch.h"
+#include <iostream>
 
 
 Logic::Stopwatch::Stopwatch()
@@ -24,3 +25,4 @@ double Logic::Stopwatch::getElapsedTime() const
 
   return duration.count();
 }
+

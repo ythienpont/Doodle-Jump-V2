@@ -4,8 +4,7 @@
 #include "Vec2D.h"
 #include <math.h>
 
-const int SCREENW = 480;
-//const int SCREENH = 700;
+const int SCREENW = 470;
 const int SCREENH = 900;
 namespace Logic
 {
@@ -22,6 +21,7 @@ namespace Logic
 
     bool isOutOfUpperBounds(const Vec2D& pos) const;
     bool isOutOfLowerBounds(const Vec2D& pos) const;
+    bool isOutOfLowerBounds(const Vec2D& pos, const double& delta) const;
 
     int updateBaseHeight(const Vec2D& playerPos, const double& playerVel);
     void reset();

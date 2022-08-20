@@ -30,6 +30,11 @@ bool Logic::Camera::isOutOfLowerBounds(const Vec2D& pos) const
   return pos.y <= baseHeight;
 }
 
+bool Logic::Camera::isOutOfLowerBounds(const Vec2D& pos, const double& delta) const
+{
+  return pos.y <= baseHeight - delta;
+}
+
 bool Logic::Camera::isOutOfUpperBounds(const Vec2D& pos) const
 {
   return pos.y >= baseHeight+SCREENH;
