@@ -6,7 +6,6 @@
 #include "Collider.h"
 #include "Subject.h"
 #include "View.h"
-#include "Entity.h"
 #include "Camera.h"
 
 namespace Logic
@@ -45,12 +44,18 @@ namespace Logic
     bool isDead() const;
   };
 
-  class Model : public Subject, public Entity
+  class Model : public Subject
   {
     int scoreDelta;
   public:
     Vec2D pos;
+
+    /* This should be some sort of static member,
+     * but maybe it is desirable that every object can have a different collider.
+     * Initializing static members from a derived class is probably bad code anyway
+     */
     Collider col;
+
     std::shared_ptr<Representation::View> view;
 
     ~Model();

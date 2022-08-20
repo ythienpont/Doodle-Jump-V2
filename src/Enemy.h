@@ -19,7 +19,7 @@ namespace Logic
   class Enemy : public Model, public Living
   {
   public:
-    Enemy(const Vec2D& pos);
+    explicit Enemy(const Vec2D& pos);
     void update() override;
     virtual bool isShooting() const;
     virtual void reset();
@@ -31,7 +31,7 @@ namespace Logic
   {
     bool shooting;
   public:
-    ShootingEnemy(const Vec2D& pos);
+    explicit ShootingEnemy(const Vec2D& pos);
     bool isShooting() const override;
     void hit() override;
     void reset() override;

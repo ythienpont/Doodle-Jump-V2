@@ -1,9 +1,9 @@
 #include "Vec2D.h"
 
-Vec2D::Vec2D(const double& newX, const double& newY)
+Vec2D::Vec2D(const double& xx, const double& yy)
 {
-  x = newX;
-  y = newY;
+  x = xx;
+  y = yy;
 }
 
 Vec2D Vec2D::operator+(const Vec2D& that)

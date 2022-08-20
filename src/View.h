@@ -21,104 +21,104 @@ namespace Representation
   class Player : public View
   {
   public:
-    Player(const Vec2D& position);
+    explicit Player(const Vec2D& position);
   };
 
   class Platform : public View
   {
   public:
-    Platform(const Vec2D& position);
+    explicit Platform(const Vec2D& position);
   };
 
   class HPlatform : public View
   {
   public:
-    HPlatform(const Vec2D& position);
+    explicit HPlatform(const Vec2D& position);
   };
 
   class VPlatform : public View
   {
   public:
-    VPlatform(const Vec2D& position);
+    explicit VPlatform(const Vec2D& position);
   };
 
   class TempPlatform : public View
   {
   public:
-    TempPlatform(const Vec2D& position);
+    explicit TempPlatform(const Vec2D& position);
   };
 
   class HTelePlatform : public View
   {
   public:
-    HTelePlatform(const Vec2D& position);
+    explicit HTelePlatform(const Vec2D& position);
   };
 
   class VTelePlatform : public View
   {
   public:
-    VTelePlatform(const Vec2D& position);
+    explicit VTelePlatform(const Vec2D& position);
   };
 
   class Enemy : public View
   {
   public:
-    Enemy(const Vec2D& position);
+    explicit Enemy(const Vec2D& position);
   };
 
   class ShootingEnemy : public View
   {
   public:
-    ShootingEnemy(const Vec2D& position);
+    explicit ShootingEnemy(const Vec2D& position);
   };
 
 
   class BGTile : public View
   {
   public:
-    BGTile(const Vec2D& position);
+    explicit BGTile(const Vec2D& position);
   };
 
   class Spring : public View
   {
   public:
-    Spring(const Vec2D& position);
+    explicit Spring(const Vec2D& position);
   };
 
   class Jetpack : public View
   {
   public:
-    Jetpack(const Vec2D& position);
+    explicit Jetpack(const Vec2D& position);
   };
 
   class Heart : public View
   {
   public:
-    Heart(const Vec2D& position);
+    explicit Heart(const Vec2D& position);
   };
 
   class Spikes : public View
   {
   public:
-    Spikes(const Vec2D& position);
+    explicit Spikes(const Vec2D& position);
   };
 
   class PlayerBullet : public View
   {
   public:
-    PlayerBullet(const Vec2D& position);
+    explicit PlayerBullet(const Vec2D& position);
   };
 
   class EnemyBullet : public View
   {
   public:
-    EnemyBullet(const Vec2D& position);
+    explicit EnemyBullet(const Vec2D& position);
   };
 
   class Effect : public View
   {
   public:
-    Effect(const bool friendly);
+    explicit Effect(const bool friendly);
   };
 }
 

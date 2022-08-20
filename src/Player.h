@@ -21,7 +21,7 @@ namespace Logic
     std::shared_ptr<Bonus> bonus;
     void parseBonus();
   public:
-    Player(const Vec2D& pos);
+    explicit Player(const Vec2D& pos);
     void jump();
     void update() override;
     bool goingDown() const;

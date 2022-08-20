@@ -3,10 +3,11 @@
 
 namespace Logic
 {
-  struct Collider 
+  struct Collider
   {
     double width;
     double height;
+
     Collider(const double& w, const double& h);
   };
 }

@@ -20,7 +20,7 @@ namespace Logic
     bool jumpedOn;
     int credits; // Used for controlling difficulty
   public:
-    Platform(const Vec2D& startPos);
+    explicit Platform(const Vec2D& startPos);
     int getCredits() const;
     virtual void update() override;
   protected:
@@ -30,7 +30,7 @@ namespace Logic
   class HPlatform : public Platform, public Moving
   {
   public:
-    HPlatform(const Vec2D& pos);
+    explicit HPlatform(const Vec2D& pos);
     void update() override;
   };
 
@@ -38,14 +38,14 @@ namespace Logic
   {
     Vec2D startPos;
   public:
-    VPlatform(const Vec2D& pos);
+    explicit VPlatform(const Vec2D& pos);
     void update() override;
   };
 
   class TempPlatform : public Platform
   {
   public:
-    TempPlatform(const Vec2D& pos);
+    explicit TempPlatform(const Vec2D& pos);
     void jumpOn() override;
   };
 
@@ -53,7 +53,7 @@ namespace Logic
   {
     Vec2D startPos;
   public:
-    HTelePlatform(const Vec2D& pos);
+    explicit HTelePlatform(const Vec2D& pos);
     void jumpOn() override;
   };
 
@@ -61,7 +61,7 @@ namespace Logic
   {
     Vec2D startPos;
   public:
-    VTelePlatform(const Vec2D& pos);
+    explicit VTelePlatform(const Vec2D& pos);
     void jumpOn() override;
   };
 }
