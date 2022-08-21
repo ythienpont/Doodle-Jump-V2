@@ -1,4 +1,5 @@
-#include "Model.h"
+#include "../include/Model.h"
+#include <iostream>
 
 Logic::Model::Model(const Vec2D& startPos, const double& w, const double& h, const int scoreD) : pos(startPos), pixelPos(0,0), col(Collider(w, h)), scoreDelta(scoreD)
 {
@@ -8,6 +9,13 @@ Logic::Model::Model(const Vec2D& startPos, const double& w, const double& h, con
 Logic::Model::Model(const double& w, const double& h, const int scoreD) : Model(Vec2D(0,0),w,h, scoreD)
 {
 
+}
+
+void Logic::Model::notifyObservers()
+{
+  if (view == nullptr)
+    printf("SHTIPATOWN\n");
+  view->update(pixelPos);
 }
 
 void Logic::Model::setPosition(const double& x, const double& y)
@@ -68,20 +76,6 @@ void Logic::Moving::addVelocity(const Vec2D& vel)
   velocity += vel;
 }
 
-void Logic::Model::registerObserver(std::shared_ptr<Representation::View> observer)
-{
-  view = observer;
-}
-
-void Logic::Model::removeObserver(std::shared_ptr<Representation::View> observer)
-{
-  view = nullptr;
-}
-
-void Logic::Model::notifyObservers()
-{
-  view->update(pixelPos);
-}
 
 void Logic::Model::moveOutOfBounds()
 {

@@ -1,4 +1,4 @@
-#include "Bonus.h"
+#include "../include/Bonus.h"
 
 // OOP in a nutshell...
 

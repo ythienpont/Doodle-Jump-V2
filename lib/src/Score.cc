@@ -1,4 +1,4 @@
-#include "Score.h"
+#include "../include/Score.h"
 
 Logic::Score::Score() : amount(0) { }
 

@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "../include/Player.h"
 
 Logic::Player::Player(const Vec2D& pos) : Logic::Model(pos, PLAYER_WIDTH, PLAYER_HEIGHT/4, 0), Logic::Moving(Vec2D(0,0)), Living(PLAYER_HP), bonus(nullptr), state(None) { }
 

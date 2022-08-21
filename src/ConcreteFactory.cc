@@ -1,5 +1,5 @@
-#include "AbstractFactory.h"
-
+#include "ConcreteFactory.h"
+#include <iostream>
 std::unique_ptr<Logic::Player> ConcreteFactory::createPlayer(const Vec2D& pos, const Vec2D& pixelPos) const
 {
   std::unique_ptr<Logic::Player> playerModel = std::make_unique<Logic::Player>(pos);
@@ -149,7 +149,7 @@ std::unique_ptr<Logic::Effect> ConcreteFactory::createEnemyHitEffect() const
 {
   std::unique_ptr<Logic::Effect> effectModel = std::make_unique<Logic::Effect>();
   std::shared_ptr<Representation::Effect> effectView = std::make_shared<Representation::Effect>(false);
-  effectModel->registerView(effectView);
+  effectModel->registerObserver(effectView);
 
   return effectModel;
 }
@@ -158,7 +158,7 @@ std::unique_ptr<Logic::Effect> ConcreteFactory::createFriendlyHitEffect() const
 {
   std::unique_ptr<Logic::Effect> effectModel = std::make_unique<Logic::Effect>();
   std::shared_ptr<Representation::Effect> effectView = std::make_shared<Representation::Effect>(true);
-  effectModel->registerView(effectView);
+  effectModel->registerObserver(effectView);
 
   return effectModel;
 }

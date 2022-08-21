@@ -1,13 +1,13 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include "Observer.h"
+#include "../lib/include/Observer.h"
 #include <SFML/Graphics.hpp>
-#include "Camera.h"
+#include "../lib/include/Camera.h"
 
 namespace Representation
 {
-  class View : public Observer, public sf::RectangleShape
+  class View : public Logic::Observer, public sf::RectangleShape
   {
   public:
     View(const Vec2D& position);

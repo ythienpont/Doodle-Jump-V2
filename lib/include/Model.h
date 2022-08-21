@@ -5,7 +5,7 @@
 #include "Vec2D.h"
 #include "Collider.h"
 #include "Subject.h"
-#include "View.h"
+#include "Observer.h"
 #include "Camera.h"
 
 namespace Logic
@@ -57,8 +57,6 @@ namespace Logic
      */
     Collider col;
 
-    std::shared_ptr<Representation::View> view;
-
     ~Model();
     virtual void update()=0;
 
@@ -74,8 +72,6 @@ namespace Logic
     void moveOutOfBounds();
 
     // Subject code
-    void registerObserver(std::shared_ptr<Representation::View> observer) override;
-    void removeObserver(std::shared_ptr<Representation::View> observer) override;
     bool isInRange(const Vec2D& ePos, const int range) const;
     Vec2D pathToObject(const Vec2D& ePos) const;
 

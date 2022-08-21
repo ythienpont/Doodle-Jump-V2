@@ -2,9 +2,10 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
-#include "Stopwatch.h"
-#include "Random.h"
-#include "World.h"
+#include "../lib/include/Stopwatch.h"
+#include "../lib/include/Random.h"
+#include "../lib/include/World.h"
+#include "ConcreteFactory.h"
 
 
 namespace Representation
@@ -28,7 +29,7 @@ namespace Representation
     sf::RenderWindow window;
 
     std::unique_ptr<Logic::World> world;
-    std::shared_ptr<AbstractFactory> factory;
+    std::shared_ptr<ConcreteFactory> factory;
   };
 }
 

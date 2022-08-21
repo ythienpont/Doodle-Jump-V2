@@ -1,8 +1,7 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
-#include <memory>
-#include "View.h"
+#include "Subject.h"
 
 /*
  * This class will not really do anything,
@@ -15,14 +14,9 @@
 
 namespace Logic
 {
-  class Effect
+  class Effect : public Subject
   {
-  private:
-    std::shared_ptr<Representation::Effect> view;
-  public:
-    Effect();
-    std::shared_ptr<Representation::Effect> getView() const;
-    void registerView(std::shared_ptr<Representation::Effect> theView);
+    void notifyObservers() override { }
   };
 }
 #endif //EFFECT_H

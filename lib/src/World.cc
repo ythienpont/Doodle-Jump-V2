@@ -1,5 +1,4 @@
-#include "World.h"
-#include <iostream>
+#include "../include/World.h"
 
 int xTileAmt = 0;
 int yTileAmt = 0;
@@ -235,9 +234,9 @@ void Logic::World::spawnPlatforms(std::shared_ptr<AbstractFactory> factory)
   }
 }
 
-std::vector<std::shared_ptr<Representation::View> > Logic::World::getSprites() const
+std::vector<std::shared_ptr<Logic::Observer> > Logic::World::getView() const
 {
-  std::vector<std::shared_ptr<Representation::View> > sprites;
+  std::vector<std::shared_ptr<Logic::Observer> > sprites;
 
   for (auto& tile : tiles)
     sprites.push_back(tile->view);
@@ -257,7 +256,7 @@ std::vector<std::shared_ptr<Representation::View> > Logic::World::getSprites() c
   sprites.push_back(player->view);
 
   for (auto& effect : effects)
-    sprites.push_back(effect->getView());
+    sprites.push_back(effect->view);
 
   return sprites;
 }

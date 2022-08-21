@@ -1,5 +1,4 @@
-#include "Enemy.h"
-#include <iostream>
+#include "../include/Enemy.h"
 
 Logic::Enemy::Enemy(const Vec2D& pos) : Logic::Model(pos, ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_DELTA), Living(ENEMY_HP), shooting(false), hasShot(false){ }
 Logic::Enemy::Enemy(const Vec2D& pos, const double& width, const double& height, const int hp, const int scoreD) : Logic::Model(pos, width, height, scoreD), Living(hp), shooting(false), hasShot(false) { }

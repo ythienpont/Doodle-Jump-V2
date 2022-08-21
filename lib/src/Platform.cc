@@ -1,4 +1,4 @@
-#include "Platform.h"
+#include "../include/Platform.h"
 
 int getNumberInRange(const int range)
 {

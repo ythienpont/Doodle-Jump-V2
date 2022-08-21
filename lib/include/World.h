@@ -52,7 +52,7 @@ namespace Logic
     World(std::shared_ptr<AbstractFactory> factory);
     ~World();
     void update(std::shared_ptr<AbstractFactory> factory);
-    std::vector<std::shared_ptr<Representation::View> > getSprites() const;
+    std::vector<std::shared_ptr<Observer> > getView() const;
     void setPlayerState(const PlayerState& state);
     int getScore() const;
     int getPlayerHP() const;

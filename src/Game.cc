@@ -91,17 +91,18 @@ void Representation::Game::render()
 {
   window.clear(sf::Color::Black);
 
-  std::vector<std::shared_ptr<Representation::View> > sprites = world->getSprites();
+  std::vector<std::shared_ptr<Logic::Observer> > sprites = world->getView();
 
   for (auto& sprite : sprites)
   {
-    window.draw(*sprite);
+    window.draw(*std::static_pointer_cast<Representation::View>(sprite));
   }
+
+  if (world->isGameOver())
+    drawGameOver();
 
   drawScore();
   drawPlayerHP();
-  if (world->isGameOver())
-    drawGameOver();
   window.display();
 }
 
