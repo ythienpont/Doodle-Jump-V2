@@ -2,13 +2,6 @@
 
 Logic::Camera::Camera() : baseHeight(0) { }
 
-Logic::Camera* Logic::Camera::getInstance()
-{
-  if (!instance) instance = new Camera;
-
-  return instance;
-}
-
 Vec2D Logic::Camera::toPixelCoordinates(const Vec2D& pos) const
 {
   return Vec2D(pos.x, SCREENH-(pos.y-baseHeight));
@@ -40,7 +33,7 @@ bool Logic::Camera::isOutOfUpperBounds(const Vec2D& pos) const
   return pos.y >= baseHeight+SCREENH;
 }
 
-void Logic::Camera::reset()
+bool Logic::Camera::isOutOfBounds(const Vec2D& pos) const
 {
-  baseHeight = 0;
+  return isOutOfLowerBounds(pos) || isOutOfUpperBounds(pos) || pos.x < 0 || pos.x > SCREENW;
 }

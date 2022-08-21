@@ -58,7 +58,6 @@ void Representation::Game::handlePlayerInput(sf::Keyboard::Key key, bool isPress
       break;
     case sf::Keyboard::Enter:
       world = std::make_unique<Logic::World>(factory);
-      Logic::Camera::getInstance()->reset();
       break;
   }
 }

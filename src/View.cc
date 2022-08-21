@@ -10,15 +10,6 @@ Representation::View::View(const Vec2D& position)
   setPosition(Vec2DToVector2f(position));
 }
 
-void Representation::View::applyTexture(const std::string& texturePath)
-{
-  /*
-  sf::Texture texture;
-  texture.loadFromFile(texturePath);
-  setTexture(texture);
-  */
-}
-
 void Representation::View::update(const Vec2D& position)
 {
   setPosition(Vec2DToVector2f(position));
@@ -99,7 +90,7 @@ Representation::EnemyBullet::EnemyBullet(const Vec2D& position) : View(position)
 {
   //applyTexture(TEMPPLATFORMTEXTUREFILE);
   setFillColor(sf::Color::Red);
-  setSize(sf::Vector2f(5,-20));
+  setSize(sf::Vector2f(10,-10));
 }
 
 Representation::Spikes::Spikes(const Vec2D& position) : View(position)

@@ -6,6 +6,7 @@
 const int BONUS_AMT = 4;
 const int GOOD_DELTA = 500;
 const int BAD_DELTA = -500;
+const int BONUS_WIDTH = 20;
 
 namespace Logic
 {

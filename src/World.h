@@ -29,6 +29,7 @@ namespace Logic
 
     int difficulty;
     Score score;
+    Camera camera;
 
     void checkPlayerCollisions(std::shared_ptr<AbstractFactory> factory);
     void checkProjectileCollisions(std::shared_ptr<AbstractFactory> factory);
@@ -39,7 +40,6 @@ namespace Logic
     void spawnBonus(std::shared_ptr<AbstractFactory> factory);
     void spawnEntities(std::shared_ptr<AbstractFactory> factory);
     void spawnPlayerBullet(std::shared_ptr<AbstractFactory> factory);
-    int getTotalCredits() const;
     void destroyEntities();
     void destroyPlatforms();
     void destroyBonuses();
@@ -58,5 +58,6 @@ namespace Logic
     int getPlayerHP() const;
     bool isGameOver() const;
   };
+
 }
 #endif //WORLD_H

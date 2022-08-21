@@ -47,6 +47,7 @@ namespace Logic
   class Model : public Subject
   {
     int scoreDelta;
+    Vec2D pixelPos;
   public:
     Vec2D pos;
 
@@ -75,6 +76,11 @@ namespace Logic
     // Subject code
     void registerObserver(std::shared_ptr<Representation::View> observer) override;
     void removeObserver(std::shared_ptr<Representation::View> observer) override;
+    bool isInRange(const Vec2D& ePos, const int range) const;
+    Vec2D pathToObject(const Vec2D& ePos) const;
+
+    void setPixelPos(const Vec2D& pixelPos);
+
   protected:
     void notifyObservers() override;
     Model(const double& w, const double& h, const int scoreD);

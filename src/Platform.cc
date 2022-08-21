@@ -6,24 +6,19 @@ int getNumberInRange(const int range)
   return std::pow(-1,sign)*(Logic::Random::getInstance()->getValue()%(range)+1);// I never want the number to be 0
 }
 
-Logic::Platform::Platform(const Vec2D& startPos) : Model(startPos, PWIDTH, PHEIGHT, PLATDELTA), jumpedOn(false), credits(5) { }
+Logic::Platform::Platform(const Vec2D& startPos) : Model(startPos, PWIDTH, PHEIGHT, PLATDELTA), jumpedOn(false) { }
 
-Logic::Platform::Platform(const Vec2D& startPos, const int creds, const int scoreD) : Model(startPos, PWIDTH, PHEIGHT, scoreD), jumpedOn(false), credits(creds) { }
+Logic::Platform::Platform(const Vec2D& startPos, const int scoreD) : Model(startPos, PWIDTH, PHEIGHT, scoreD), jumpedOn(false) { }
 
-int Logic::Platform::getCredits() const
-{
-  return credits;
-}
+Logic::HPlatform::HPlatform(const Vec2D& pos) : Platform(pos, HPLATDELTA), Moving(Vec2D(1,0)) { }
 
-Logic::HPlatform::HPlatform(const Vec2D& pos) : Platform(pos, 2, HPLATDELTA), Moving(Vec2D(1,0)) { }
+Logic::VPlatform::VPlatform(const Vec2D& pos) : Platform(pos, VPLATDELTA), Moving(Vec2D(0,1)), startPos(pos) { }
 
-Logic::VPlatform::VPlatform(const Vec2D& pos) : Platform(pos, 2, VPLATDELTA), Moving(Vec2D(0,1)), startPos(pos) { }
+Logic::TempPlatform::TempPlatform(const Vec2D& pos) : Platform(pos, TELEDELTA) { }
 
-Logic::TempPlatform::TempPlatform(const Vec2D& pos) : Platform(pos, 1, TELEDELTA) { }
+Logic::HTelePlatform::HTelePlatform(const Vec2D& pos) : Platform(pos, TELEDELTA), startPos(pos) { }
 
-Logic::HTelePlatform::HTelePlatform(const Vec2D& pos) : Platform(pos, 2, TELEDELTA), startPos(pos) { }
-
-Logic::VTelePlatform::VTelePlatform(const Vec2D& pos) : Platform(pos, 2, VPLATDELTA), startPos(pos) { }
+Logic::VTelePlatform::VTelePlatform(const Vec2D& pos) : Platform(pos, VPLATDELTA), startPos(pos) { }
 
 void Logic::Platform::update() {
   notifyObservers();

@@ -18,13 +18,12 @@ namespace Logic
   class Platform : public Model , public Jumpable
   {
     bool jumpedOn;
-    int credits; // Used for controlling difficulty
   public:
     explicit Platform(const Vec2D& startPos);
     int getCredits() const;
     virtual void update() override;
   protected:
-    Platform(const Vec2D& pos, const int creds, const int scoreD);
+    Platform(const Vec2D& pos, const int scoreD);
   };
 
   class HPlatform : public Platform, public Moving

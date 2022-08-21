@@ -1,5 +1,4 @@
 #include "Player.h"
-#include <iostream>
 
 Logic::Player::Player(const Vec2D& pos) : Logic::Model(pos, PLAYER_WIDTH, PLAYER_HEIGHT/4, 0), Logic::Moving(Vec2D(0,0)), Living(PLAYER_HP), bonus(nullptr), state(None) { }
 
@@ -43,8 +42,6 @@ void Logic::Player::update()
   if (pos.x > SCREENW+PLAYER_WIDTH)
     pos.x = 0;
 
-  if (Camera::getInstance()->isOutOfLowerBounds(getPosition()))
-    kill();
   notifyObservers();
 }
 
@@ -55,7 +52,7 @@ void Logic::Player::setPlayerState(const PlayerState& ps)
 
 bool Logic::Player::goingDown() const
 {
-  return getVelocity().y < -2; // Yes, under 0 is also 'going down' but this gives a more natural jump effect
+  return getVelocity().y < 0;
 }
 
 bool Logic::Player::isShooting() const

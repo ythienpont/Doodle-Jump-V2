@@ -3,7 +3,6 @@
 
 Logic::Stopwatch* Logic::Stopwatch::instance = 0;
 Logic::Random* Logic::Random::instance = 0;
-Logic::Camera* Logic::Camera::instance = 0;
 
 int main( int argc, char* argv[])
 {

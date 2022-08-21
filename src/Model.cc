@@ -1,6 +1,6 @@
 #include "Model.h"
 
-Logic::Model::Model(const Vec2D& startPos, const double& w, const double& h, const int scoreD) : pos(startPos), col(Collider(w, h)), scoreDelta(scoreD)
+Logic::Model::Model(const Vec2D& startPos, const double& w, const double& h, const int scoreD) : pos(startPos), pixelPos(0,0), col(Collider(w, h)), scoreDelta(scoreD)
 {
 
 }
@@ -14,6 +14,11 @@ void Logic::Model::setPosition(const double& x, const double& y)
 {
   pos.x = x;
   pos.y = y;
+}
+
+void Logic::Model::setPixelPos(const Vec2D& pPos)
+{
+  pixelPos = pPos;
 }
 
 void Logic::Model::setPosition(const Vec2D& newPos)
@@ -75,7 +80,7 @@ void Logic::Model::removeObserver(std::shared_ptr<Representation::View> observer
 
 void Logic::Model::notifyObservers()
 {
-  view->update(Camera::getInstance()->toPixelCoordinates(pos));
+  view->update(pixelPos);
 }
 
 void Logic::Model::moveOutOfBounds()
@@ -140,4 +145,16 @@ int Logic::Model::getScoreDelta() const
 Logic::Model::~Model()
 {
   view = nullptr;
+}
+
+bool Logic::Model::isInRange(const Vec2D& ePos, const int range) const
+{
+  int distance = std::sqrt(std::pow(pos.x-ePos.x,2) + std::pow(pos.y-ePos.y,2));
+
+  return distance <= range;
+}
+
+Vec2D Logic::Model::pathToObject(const Vec2D& ePos) const
+{
+  return Vec2D(ePos.x-pos.x,ePos.y-pos.y);
 }

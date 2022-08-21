@@ -2,18 +2,16 @@
 #define VIEW_H
 
 #include "Observer.h"
-#include "Entity.h"
 #include <SFML/Graphics.hpp>
 #include "Camera.h"
 
 namespace Representation
 {
-  class View : public Observer, public sf::RectangleShape, public Entity
+  class View : public Observer, public sf::RectangleShape
   {
   public:
     View(const Vec2D& position);
 
-    void applyTexture(const std::string& texturePath);
     // Observer code
     void update(const Vec2D& position) override;
   };

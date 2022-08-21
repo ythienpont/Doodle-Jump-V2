@@ -7,29 +7,27 @@ const int PROJECTILE_DELTA = 100;
 
 namespace Logic
 {
-  class Projectile : public Model, Moving
+  class Projectile : public Model, public Moving
   {
   private:
     bool friendly;
   public:
     bool isFriendly() const;
-    virtual void update()=0;
+    void update();
   protected:
-    Projectile(const Vec2D& pos, const bool isFriendly);
+    Projectile(const Vec2D& pos, const bool isFriendly, const Vec2D& velocity);
   };
 
   class PlayerBullet : public Projectile
   {
   public:
     PlayerBullet(const Vec2D& pos);
-    void update() override;
   };
 
   class EnemyBullet : public Projectile
   {
   public:
-    EnemyBullet(const Vec2D& pos);
-    void update() override;
+    EnemyBullet(const Vec2D& pos, const Vec2D& velocity);
   };
 }
 
