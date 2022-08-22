@@ -86,7 +86,7 @@ void Logic::Player::parseBonus()
 {
   if (bonus->getDistance() == 0)
   {
-    addHP(bonus->getHealth());
+    if (getHP() < PLAYER_HP+1 or bonus->getHealth()<0) addHP(bonus->getHealth());
     if (bonus->getJumpMultiplier() > 0)
       setVelocity(Vec2D(0, bonus->getJumpMultiplier()*JUMP_HEIGHT));
   }
